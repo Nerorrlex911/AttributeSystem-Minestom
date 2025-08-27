@@ -1,9 +1,8 @@
 package com.github.zimablue.attrsystem.internal.manager
 
-import com.github.zimablue.attrsystem.api.AttributeSystemAPI
 import com.github.zimablue.attrsystem.AttributeSystem
-import com.skillw.attsystem.util.Utils.mirrorIfDebug
-import com.skillw.pouvoir.util.isAlive
+import com.github.zimablue.attrsystem.api.AttributeSystemAPI
+import com.github.zimablue.attrsystem.utils.isAlive
 import net.minestom.server.entity.LivingEntity
 import java.util.*
 
@@ -11,17 +10,13 @@ object AttributeSystemAPIImpl : AttributeSystemAPI {
 
     override fun update(entity: LivingEntity) {
         if (!entity.isAlive()) return
-        mirrorIfDebug("update-entity") {
-            mirrorIfDebug("update-equipment") {
-                AttributeSystem.equipmentDataManager.update(entity)
-            }
-            mirrorIfDebug("update-attribute") {
-                AttributeSystem.attributeDataManager.update(entity)
-            }
-            mirrorIfDebug("realize") {
-                AttributeSystem.realizerManager.realize(entity)
-            }
-        }
+
+            AttributeSystem.equipmentDataManager.update(entity)
+
+            AttributeSystem.attributeDataManager.update(entity)
+
+    //AttributeSystem.realizerManager.realize(entity)
+
     }
 
 
