@@ -1,0 +1,23 @@
+Percent:
+  type: number
+  matchers:
+    percentMax: plus
+    percentMin: plus
+    percent: plus
+    percentAddition: plus
+  patterns:
+    # 暴击率: 10-60(%    
+    - "{name}.*?<percentMin>-<percentMax>"
+    # 暴击率: 50 (+10) (%)
+    - "{name}.*?<percent>.*?\\(<percentAddition>\\)"
+    # 暴击率: 50(%)
+    - "{name}.*?<percent>"
+  placeholders:
+    # total min max 必须写
+    total: "<percentRandom>"
+    min: "(<percentMin> + <percentAddition>) /100"
+    max: "(<percentMax> + <percentAddition>) /100"
+    percent: (<percent> + <percentAddition>) /100
+    percentMin: <percentMin> /100
+    percentMax: <percentMax> /100
+    percentRandom: ( <percent> + <percentAddition> + {random <percentMin> to <percentMax>})/100

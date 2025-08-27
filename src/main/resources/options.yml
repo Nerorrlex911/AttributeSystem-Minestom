@@ -1,0 +1,36 @@
+base-attribute-player:
+  # strings / nbt
+  type: strings
+  attributes:
+    - "生命恢复: 0.1"
+    - "攻击速度: 1.5"
+    - "命中几率: 100(%)"
+    - "攻击距离: 2.7"
+    - "暴击伤害: 150(%)"
+base-attribute-entity:
+  #当实体生成的时候，是否自动添加这些属性
+  on-spawn: true
+  # strings / nbt
+  type: strings
+  attributes:
+    - "命中几率: 100(%)"
+#生命值缩放
+health-scale:
+  enable: true
+  value: 20
+health-regain:
+  #默认每10tick(0.5s)恢复一次生命值 (见 period)
+  #为了方便实现"每秒回血" %as_att:HealthRegain% /s 故将值除以二
+  enable: true
+  vanilla: true
+  #每多少tick 恢复一次生命
+  period: 10
+  #战斗时间禁生命恢复系统
+  disable-in-fighting: false
+  value: "%as_att:HealthRegain% / 2"
+update:
+  #属性更新任务周期 (tick)
+  period: 10
+  #由事件驱动的玩家更新最低间隔 (ms)
+  #为了防止玩家高频更新属性
+  baffle: 20

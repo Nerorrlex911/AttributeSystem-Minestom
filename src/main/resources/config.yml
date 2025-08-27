@@ -1,0 +1,33 @@
+database:
+  type: sqlite
+  # sqlite的path
+  path: plugins/AttributeSystem/database.db
+  enable: false
+  host: localhost
+  port: 3306
+  user: root
+  password: root
+  database: root
+  #每10分钟同步一次 （tick）
+  user-container-sync-time: 12000
+options:
+  debug: false
+  read:
+    #当行中有这些之一时，忽略此行属性
+    ignores:
+      - "//"
+      - "§-"
+  condition:
+    line-condition:
+      #单行条件的格式
+      #解析:
+      # \/ '\'用来转义，   :  属性和单行条件之间的分隔符
+      # (?<requirement>.*) : 单行条件们
+      # 例： 攻击力: 100/Lv.100,职业: 巫师
+      format: '\/(?<requirement>.*)'
+      #每个单行条件间的分隔符
+      separator: ","
+#  移至Pouvoir
+#  operation:
+#    string-append-separator: ", "
+

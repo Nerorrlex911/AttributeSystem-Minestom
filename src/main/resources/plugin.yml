@@ -1,6 +1,6 @@
-name: "DevoutPlugin"
-entrypoint: "com.github.zimablue.devoutplugin.DevoutPlugin"
+name: "AttributeSystem"
+entrypoint: "com.github.zimablue.attrsystem.AttributeSystem"
 # the package for annotations scan
-package: "com.github.zimablue.devoutplugin"
+package: "com.github.zimablue.attrsystem"
 
 version: "1.0.0"
