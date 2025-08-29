@@ -1,5 +1,6 @@
 package com.github.zimablue.attrsystem.internal.manager
 
+import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.AttributeSystem.attributeManager
 import com.github.zimablue.attrsystem.AttributeSystem.compileManager
 import com.github.zimablue.attrsystem.api.attribute.compound.AttributeData
@@ -21,7 +22,6 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import net.minestom.server.component.DataComponents
 import net.minestom.server.entity.LivingEntity
-import net.minestom.server.event.EventDispatcher
 import net.minestom.server.item.ItemStack
 import net.minestom.server.tag.Tag
 
@@ -90,7 +90,7 @@ object ReadManagerImpl : ReadManager() {
         }
         val event = StringsReadEvent(entity, strings, compiledData)
         var result: CompiledData? = null
-        EventDispatcher.callCancellable(event) {
+        AttributeSystem.asEventNode.callCancellable(event) {
             result = event.compiledData
         }
         return result
@@ -199,7 +199,7 @@ object ReadManagerImpl : ReadManager() {
             slot
         )
         var result: CompiledData? = null
-        EventDispatcher.callCancellable(event) {
+        AttributeSystem.asEventNode.callCancellable(event) {
             result = event.compiledData
         }
         return result

@@ -4,8 +4,11 @@ import com.github.zimablue.attrsystem.api.AttributeSystemAPI
 import com.github.zimablue.attrsystem.api.manager.*
 import com.github.zimablue.attrsystem.internal.manager.*
 import com.github.zimablue.devoutserver.plugin.Plugin
+import net.minestom.server.event.EventNode
 
 object AttributeSystem : Plugin() {
+
+    val asEventNode = EventNode.all("AttributeSystem-Node")
 
     val attributeManager : AttributeManager = AttributeManagerImpl
     val attributeDataManager : AttributeDataManager = AttributeDataManagerImpl

@@ -1,5 +1,6 @@
 package com.github.zimablue.attrsystem.internal.manager
 
+import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.AttributeSystem.compiledAttrDataManager
 import com.github.zimablue.attrsystem.AttributeSystem.equipmentDataManager
 import com.github.zimablue.attrsystem.api.AttrAPI.readItem
@@ -50,7 +51,7 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
         var data = uncheckedGet(uuid) ?: EquipmentDataCompound(entity)
         equipmentDataManager.register(uuid, data)
         val pre = EquipmentUpdateEvent.Pre(entity, data)
-        EventDispatcher.call(pre)
+        AttributeSystem.asEventNode.call(pre)
         //不允许取消的事件还检测isCancelled，这不是脱裤子放屁吗？
 //        if (pre.isCancelled) {
 //            return data
@@ -60,7 +61,7 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
         entity.loadEquipments(data)
 
         val postEvent = EquipmentUpdateEvent.Post(entity, data)
-        EventDispatcher.call(postEvent)
+        AttributeSystem.asEventNode.call(postEvent)
 //        if (postEvent.isCancelled) {
 //            return data
 //        }
@@ -94,7 +95,7 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
             return null
         }
         val event = ItemLoadEvent(entity, item)
-        EventDispatcher.call(event)
+        AttributeSystem.asEventNode.call(event)
         if (event.isCancelled) {
             removeItem(source, slot)
             return null

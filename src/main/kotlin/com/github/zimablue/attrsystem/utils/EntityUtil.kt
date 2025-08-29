@@ -1,9 +1,10 @@
 package com.github.zimablue.attrsystem.utils
 
 import com.github.zimablue.attrsystem.AttributeSystem.attributeSystemAPI
-import com.github.zimablue.pouplaceholder.util.livingEntity
+import net.minestom.server.MinecraftServer
 import net.minestom.server.entity.Entity
 import net.minestom.server.entity.LivingEntity
+import net.minestom.server.utils.entity.EntityFinder
 import java.util.*
 
 fun UUID.validEntity(): LivingEntity? {
@@ -20,4 +21,15 @@ fun Entity.isAlive(): Boolean {
 
 fun isLiving(entity: Entity?) : Boolean {
     return entity is LivingEntity && !entity.isDead && entity.isActive
+}
+
+fun UUID.livingEntity() : LivingEntity? {
+    // Use EntityFinder to find entities with the given UUID
+    MinecraftServer.getInstanceManager().instances.forEach { instance ->
+        val entity = instance.getEntityByUuid(this)?:return@forEach
+        if (entity is LivingEntity) {
+            return entity
+        }
+    }
+    return null
 }

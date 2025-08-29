@@ -2,23 +2,22 @@ package com.github.zimablue.attrsystem.internal.manager
 
 import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.api.attribute.Attribute
+import com.github.zimablue.attrsystem.api.event.AttributeRegisterEvent
 import com.github.zimablue.attrsystem.api.manager.AttributeManager
 import com.github.zimablue.attrsystem.internal.core.attribute.ConfigAttributeBuilder
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.attrsystem.utils.getAllFiles
+import com.github.zimablue.attrsystem.utils.read.StrTrie
+import com.github.zimablue.attrsystem.utils.safe
 import com.github.zimablue.devoutserver.plugin.Plugin
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
-import com.github.zimablue.devoutserver.util.map.LowerMap
 import com.github.zimablue.devoutserver.util.map.BaseMap
-import com.github.zimablue.attrsystem.utils.read.StrTrie
-import com.github.zimablue.attrsystem.utils.safe
+import com.github.zimablue.devoutserver.util.map.LowerMap
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import java.io.File
 import java.util.concurrent.CopyOnWriteArrayList
-import com.github.zimablue.attrsystem.api.event.AttributeRegisterEvent
-import net.minestom.server.event.EventDispatcher
 
 object AttributeManagerImpl: AttributeManager() {
 
@@ -104,7 +103,7 @@ object AttributeManagerImpl: AttributeManager() {
                 "[AttributeSystem] Registered Attribute: ${value.display} (Priority: ${value.priority})"
             )
         }
-        EventDispatcher.call(AttributeRegisterEvent(value))
+        AttributeSystem.asEventNode.call(AttributeRegisterEvent(value))
         return super.put(key, value)
     }
 

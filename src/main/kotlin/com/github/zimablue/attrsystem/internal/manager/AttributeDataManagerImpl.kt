@@ -1,5 +1,6 @@
 package com.github.zimablue.attrsystem.internal.manager
 
+import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.AttributeSystem.attributeDataManager
 import com.github.zimablue.attrsystem.AttributeSystem.compileManager
 import com.github.zimablue.attrsystem.AttributeSystem.compiledAttrDataManager
@@ -8,10 +9,9 @@ import com.github.zimablue.attrsystem.api.attribute.compound.AttributeDataCompou
 import com.github.zimablue.attrsystem.api.event.AttributeUpdateEvent
 import com.github.zimablue.attrsystem.api.manager.AttributeDataManager
 import com.github.zimablue.attrsystem.internal.feature.personal.InitialAttrData.Companion.pullAttrData
-import com.github.zimablue.attrsystem.utils.validEntity
 import com.github.zimablue.attrsystem.utils.isAlive
+import com.github.zimablue.attrsystem.utils.validEntity
 import net.minestom.server.entity.LivingEntity
-import net.minestom.server.event.EventDispatcher
 import java.util.*
 
 object AttributeDataManagerImpl: AttributeDataManager() {
@@ -31,7 +31,7 @@ object AttributeDataManagerImpl: AttributeDataManager() {
         //PRE
         val preEvent =
             AttributeUpdateEvent.Pre(entity, attrData)
-        EventDispatcher.call(preEvent)
+        AttributeSystem.asEventNode.call(preEvent)
         attrData = preEvent.data
         attrData.release()
         //PROCESS
@@ -42,7 +42,7 @@ object AttributeDataManagerImpl: AttributeDataManager() {
 
         val process =
             AttributeUpdateEvent.Process(entity, attrData)
-        EventDispatcher.call(process)
+        AttributeSystem.asEventNode.call(process)
         attrData = process.data
         this[uuid] = attrData
         attrData.init()
@@ -52,7 +52,7 @@ object AttributeDataManagerImpl: AttributeDataManager() {
         //AFTER
         val postEvent =
             AttributeUpdateEvent.Post(entity, attrData)
-        EventDispatcher.call(postEvent)
+        AttributeSystem.asEventNode.call(postEvent)
         attrData = postEvent.data
         this[uuid] = attrData
         return attrData

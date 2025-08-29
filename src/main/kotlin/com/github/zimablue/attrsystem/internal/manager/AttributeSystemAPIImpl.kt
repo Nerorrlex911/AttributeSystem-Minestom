@@ -15,8 +15,6 @@ object AttributeSystemAPIImpl : AttributeSystemAPI {
 
             AttributeSystem.attributeDataManager.update(entity)
 
-    //AttributeSystem.realizerManager.realize(entity)
-
     }
 
 
