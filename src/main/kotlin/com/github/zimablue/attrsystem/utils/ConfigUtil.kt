@@ -1,9 +1,21 @@
 package com.github.zimablue.attrsystem.utils
 
 import com.github.zimablue.attrsystem.AttributeSystem
+
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import java.io.File
+
+fun createIfNotExists(name: String, vararg fileNames: String) {
+    val dir = File(name)
+    if (!dir.exists()) {
+        dir.mkdir()
+        for (fileName in fileNames) {
+            safe { AttributeSystem.savePackagedResource("$name/$fileName") }
+        }
+    }
+}
+
 
 inline fun <reified T> deserializeAll(dir: String, map: MutableMap<String,T>): MutableMap<String, T> {
     getAllFiles(File(AttributeSystem.dataDirectory.toFile(),dir))

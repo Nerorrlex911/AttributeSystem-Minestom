@@ -20,6 +20,7 @@ import net.minestom.server.event.player.*
 import net.minestom.server.inventory.PlayerInventory
 import net.minestom.server.timer.TaskSchedule
 import taboolib.common5.Baffle
+import taboolib.common5.clong
 import java.util.concurrent.TimeUnit
 
 object UpdateManager {
@@ -35,7 +36,7 @@ object UpdateManager {
     fun onEnable() {
         TaskScheduler.schedule(
             "UpdateManager",
-            500
+            50 * updatePeriod.clong
         ) {
             for (uuid in attributeDataManager.keys) {
                 val entity = uuid.validEntity()

@@ -1,10 +1,11 @@
 package com.github.zimablue.attrsystem.internal.manager
 
 import com.github.zimablue.attrsystem.AttributeSystem
+import com.github.zimablue.attrsystem.utils.createIfNotExists
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
-import com.github.zimablue.devoutserver.util.createIfNotExists
+
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import java.io.File

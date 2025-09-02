@@ -11,9 +11,9 @@ object AttributeSystemAPIImpl : AttributeSystemAPI {
     override fun update(entity: LivingEntity) {
         if (!entity.isAlive()) return
 
-            AttributeSystem.equipmentDataManager.update(entity)
+        AttributeSystem.equipmentDataManager.update(entity)
 
-            AttributeSystem.attributeDataManager.update(entity)
+        AttributeSystem.attributeDataManager.update(entity)
 
     }
 
