@@ -19,7 +19,9 @@ abstract class BaseCondition(override val key: String) :
     var release = false
 
 
-    abstract override fun parameters(text: String): Map<String, Any>?
+    override fun parameters(text: String): Map<String, Any>? {
+        return null
+    }
 
     /**
      * Builder
