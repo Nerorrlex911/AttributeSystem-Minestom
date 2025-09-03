@@ -1,0 +1,8 @@
+stats-title: '  &f&m─&7&m─────────&f&m─&f属性统计&f&m─&7&m─────────&f&m─'
+stats-attribute-format: '&7        &7{name} &f>&7>&8> &c{value} &7点'
+stats-status: '属性(捕获组)状态:'
+stats-status-value: '{key} = {value}'
+stats-status-none: '无'
+stats-status-placeholder: '占位符:'
+stats-status-placeholder-value: '{key} = {value}'
+stats-end: '  &f&m─&7&m───────────────────────────&7&f&m─'

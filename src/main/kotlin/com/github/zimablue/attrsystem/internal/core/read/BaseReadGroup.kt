@@ -7,10 +7,15 @@ import com.github.zimablue.attrsystem.api.read.ReadPattern
 import com.github.zimablue.attrsystem.api.read.status.Status
 import com.github.zimablue.attrsystem.internal.core.read.num.NumberReader
 import com.github.zimablue.attrsystem.internal.core.read.str.StringReader
+import com.github.zimablue.attrsystem.internal.manager.ASConfig
 import com.github.zimablue.attrsystem.utils.format
+import com.github.zimablue.attrsystem.utils.replacement
+import com.github.zimablue.attrsystem.utils.toStringWithNext
 import com.github.zimablue.devoutserver.util.map.LowerMap
 import com.github.zimablue.pouplaceholder.PouPlaceholder
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.HoverEvent
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.minestom.server.entity.LivingEntity
 import taboolib.common.util.unsafeLazy
 import taboolib.library.configuration.ConfigurationSection
@@ -120,7 +125,51 @@ abstract class BaseReadGroup<A : Any>(override val key: String) : ReadPattern<A>
     private fun Any?.formatStr(): String = if (this is Number) format("#.###") else toString()
 
     override fun stat(attribute: Attribute, status: Status<*>, entity: LivingEntity?): Component {
-        TODO("Not yet implemented")
+        val serializer = LegacyComponentSerializer.legacySection() // 支持 § 或 & 颜色代码
+        var json = Component.empty()
+
+        val statusStr = status
+            .map { ASConfig.statusValue.replacement(mapOf("{key}" to it.key, "{value}" to it.value.formatStr())) }
+            .ifEmpty { listOf(ASConfig.statusNone) }
+            .toStringWithNext()
+
+        val placeholderStr = placeholders.keys.map {
+            ASConfig.statusPlaceholderValue.replacement(
+                mapOf(
+                    "{key}" to it,
+                    "{value}" to placeholder(it, attribute, status, entity).formatStr()
+                )
+            )
+        }.ifEmpty { listOf(ASConfig.statusNone) }.toStringWithNext()
+
+        val mainText = ASConfig.statusAttributeFormat.replacement(
+            mapOf(
+                "{name}" to attribute.display,
+                "{value}" to getTotal(attribute, status, entity).formatStr()
+            )
+        )
+
+        // 构建悬停文本
+        val hoverText = """
+        ${ASConfig.statsStatus}
+        $statusStr
+
+        ${ASConfig.statusPlaceholder}
+        $placeholderStr
+        """.trimIndent()
+
+        // 组装 Adventure 组件
+        json = json.append(
+            serializer.deserialize(mainText)
+                .hoverEvent(
+                    HoverEvent.showText(
+                        serializer.deserialize(hoverText)
+                    )
+                )
+        )
+
+        return json
+
 //        val json = Components.empty()
 //
 //        val statusStr = status

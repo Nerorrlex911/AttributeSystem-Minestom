@@ -49,7 +49,8 @@ Default:
     #可带入捕获组 与 其他 占位符 的值
     #优先带入捕获组的
     # total min max 必须写
-    total: "( <value> + <valueAddition> + {random <valueMin> to <valueMax>}) * {calculate '(1+(<percent> + <percentAddition>/100 + {random <percentMin> to <percentMax>} /100))'} * { if check <scalar> == 0 then 1 else <scalar> }"
+    #total: "( <value> + <valueAddition> + {random <valueMin> to <valueMax>}) * {calculate '(1+(<percent> + <percentAddition>/100 + {random <percentMin> to <percentMax>} /100))'} * { if check <scalar> == 0 then 1 else <scalar> }"
+    total: "js::( <value> + <valueAddition> + Math.random()*(<valueMax>-<valueMin>)+<valueMin>) * ( 1 + ( <percent> + <percentAddition>/100 + (Math.random()*(<percentMax>-<percentMin>)+<percentMin>) /100 ) ) * ( (<scalar> === 0) ? 1 : <scalar> )"
     scalar: <scalar>
     value: <value>
     percent: <percent> + <percentAddition>/100
@@ -57,8 +58,8 @@ Default:
     valueMax: <valueMax>
     percentMin: <percentMin>/100
     percentMax: <percentMax>/100
-    valueRandom: <value> + {random <valueMin> to <valueMax>}
-    percentRandom: (<percent>/100 + {random <percentMin> to <percentMax>}/100)
+    valueRandom: <value> + <valueMin>~<valueMax>
+    percentRandom: (<percent>/100 + (<percentMin>~<percentMax>)/100)
     original: <percent>
     #total: "( <valueRandom> )*( 1 + (<percentRandom>) ) * { if check <mul> == 0 then 1 else <mul> }"
     #min: "(<value> + <valueAddition> + <valueMin>)*( 1 + (<percentRandom>) ) "

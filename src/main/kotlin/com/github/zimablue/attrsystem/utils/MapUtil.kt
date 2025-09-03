@@ -1,5 +1,7 @@
 package com.github.zimablue.attrsystem.utils
 
+import com.github.zimablue.attrsystem.internal.feature.calc.FormulaParser.calculate
+import com.github.zimablue.attrsystem.internal.manager.ScriptManager
 import net.minestom.server.entity.LivingEntity
 import taboolib.library.configuration.ConfigurationSection
 import java.util.ArrayList
@@ -49,7 +51,10 @@ internal fun <T : Any> T.replaceThenCalc(replacement: Map<String, String>, entit
             list
         }
 
-        is String -> replacement(replacement)//todo what does this func do?
+        is String -> {
+            val replaced = replacement(replacement)
+            if (replaced.startsWith("js::")) ScriptManager.jsCalc(replaced) else calculate(replaced)
+        }
 
         else -> this
     }

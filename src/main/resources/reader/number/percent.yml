@@ -20,4 +20,4 @@ Percent:
     percent: (<percent> + <percentAddition>) /100
     percentMin: <percentMin> /100
     percentMax: <percentMax> /100
-    percentRandom: ( <percent> + <percentAddition> + {random <percentMin> to <percentMax>})/100
+    percentRandom: ( <percent> + <percentAddition> + (<percentMin>~<percentMax>))/100

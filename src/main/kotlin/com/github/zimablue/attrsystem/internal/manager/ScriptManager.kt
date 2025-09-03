@@ -66,4 +66,8 @@ object ScriptManager {
         }
     }
 
+    fun jsCalc(str: String) : Any {
+        return pluginScriptManager.scriptEngine.eval(str)?:0.0
+    }
+
 }

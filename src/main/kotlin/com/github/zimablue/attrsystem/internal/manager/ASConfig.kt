@@ -15,6 +15,7 @@ object ASConfig {
     const val numberPattern: String = "(?<value>((?<=\\()(\\+|\\-)?(\\d+(?:(\\.\\d+))?)(?=\\)))|((\\+|\\-)?(\\d+(?:(\\.\\d+))?)))"
 
     lateinit var config: Configuration
+    lateinit var lang: Configuration
 
     val ignores: List<String>
         get() = config.getStringList("options.read.ignores")
@@ -26,8 +27,33 @@ object ASConfig {
     val lineConditionSeparator: String
         get() = config.getString("options.condition.line-condition.separator") ?: ","
 
+
+    val statsTitle: String
+        get() = lang.getString("stats-title")!!
+    val statsStatus
+        get() = lang.getString("stats-status")!!
+    val statusAttributeFormat
+        get() = lang.getString("stats-attribute-format")!!
+
+    val statusNone
+        get() = lang.getString("stats-status-none")!!
+
+    val statusValue
+        get() = lang.getString("stats-status-value")!!
+
+    val statusPlaceholder
+        get() = lang.getString("stats-status-placeholder")!!
+
+    val statusPlaceholderValue
+        get() = lang.getString("stats-status-placeholder-value")!!
+
+    val statsEnd: String
+        get() = lang.getString("stats-end")!!
+
     @Awake(PluginLifeCycle.LOAD)
     fun onLoad() {
+        AttributeSystem.savePackagedResource("config.yml")
+        AttributeSystem.savePackagedResource("lang.yml")
         createIfNotExists("reader", "number/default.yml", "number/percent.yml", "string/string.yml")
         createIfNotExists(
             "attributes",
@@ -41,7 +67,8 @@ object ASConfig {
     }
     @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOW)
     fun onEnable() {
-        config = Configuration.loadFromFile(File(AttributeSystem.dataDirectory.toFile(),"config.yml"),Type.YAML)
+        config = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("config.yml").toFile(),Type.YAML)
+        lang = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("lang.yml").toFile(),Type.YAML)
         lineConditionPattern = Pattern.compile(lineConditionFormat)
     }
 
