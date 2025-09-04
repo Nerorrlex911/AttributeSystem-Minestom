@@ -13,3 +13,4 @@ fun ItemStack.hasLore(str: String): Boolean {
     }
     return false
 }
+fun ItemStack.getName() = this[DataComponents.ITEM_NAME]?.toPlain()?:material().name()
