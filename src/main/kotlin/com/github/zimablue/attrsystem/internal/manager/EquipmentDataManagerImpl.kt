@@ -15,7 +15,6 @@ import com.github.zimablue.attrsystem.internal.core.equipment.NormalEquipmentLoa
 import com.github.zimablue.attrsystem.utils.isAlive
 import com.github.zimablue.attrsystem.utils.validEntity
 import net.minestom.server.entity.LivingEntity
-import net.minestom.server.event.EventDispatcher
 import net.minestom.server.item.ItemStack
 import net.minestom.server.tag.Tag
 import java.util.*

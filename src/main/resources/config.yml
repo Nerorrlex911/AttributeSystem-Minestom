@@ -12,6 +12,7 @@ database:
   user-container-sync-time: 12000
 options:
   debug: false
+  lore-enable: false #Lore读取属性是否启用，默认关闭
   read:
     #当行中有这些之一时，忽略此行属性
     ignores:
@@ -27,7 +28,4 @@ options:
       format: '\/(?<requirement>.*)'
       #每个单行条件间的分隔符
       separator: ","
-#  移至Pouvoir
-#  operation:
-#    string-append-separator: ", "
 

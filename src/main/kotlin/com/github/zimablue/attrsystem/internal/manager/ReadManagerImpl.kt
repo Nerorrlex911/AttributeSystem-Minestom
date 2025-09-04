@@ -189,7 +189,7 @@ object ReadManagerImpl : ReadManager() {
     ): CompiledData? {
 
         val compiledData = ComplexCompiledData()
-        readItemLore(itemStack, entity, slot)?.let { compiledData.putAll(it) }
+        if(ASConfig.loreEnable) readItemLore(itemStack, entity, slot)?.let { compiledData.putAll(it) }
         readItemNBT(itemStack, entity, slot)?.let { compiledData.add(it) }
 
         val event = ItemReadEvent(

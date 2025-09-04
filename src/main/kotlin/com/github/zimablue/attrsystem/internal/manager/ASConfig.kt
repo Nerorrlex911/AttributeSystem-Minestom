@@ -17,6 +17,9 @@ object ASConfig {
     lateinit var config: Configuration
     lateinit var lang: Configuration
 
+    val loreEnable: Boolean
+        get() = config.getBoolean("options.lore-enable",false)
+
     val ignores: List<String>
         get() = config.getStringList("options.read.ignores")
 
