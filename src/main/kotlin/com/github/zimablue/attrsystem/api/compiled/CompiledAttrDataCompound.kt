@@ -2,6 +2,8 @@ package com.github.zimablue.attrsystem.api.compiled
 
 import com.github.zimablue.attrsystem.api.attribute.compound.AttributeDataCompound
 import com.github.zimablue.attrsystem.api.compiled.sub.ComplexCompiledData
+import com.github.zimablue.attrsystem.internal.feature.attribute.BaseAttributeEntity.baseEntity
+import com.github.zimablue.attrsystem.internal.feature.attribute.BaseAttributePlayer.basePlayer
 import com.github.zimablue.devoutserver.util.map.LowerMap
 import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
@@ -10,11 +12,9 @@ class CompiledAttrDataCompound(entity: LivingEntity) : LowerMap<CompiledData>(),
 
     init {
         if (entity is Player)
-            TODO("Realizer")
-            //basePlayer()
+            basePlayer()
         else
-            TODO("Realizer")
-            //baseEntity()
+            baseEntity()
     }
 
     override fun eval(entity: LivingEntity?): AttributeDataCompound {
