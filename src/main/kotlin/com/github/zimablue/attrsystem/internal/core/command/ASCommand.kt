@@ -15,9 +15,6 @@ object ASCommand : Command("as","attrsystem","attsystem") {
         addSubcommand(StatsCommand.stats)
         addSubcommand(StatsCommand.itemStats)
         addSubcommand(StatsCommand.entityStats)
-        MinecraftServer.getCommandManager().register(this)
     }
-
-
 
 }

@@ -2,8 +2,10 @@ package com.github.zimablue.attrsystem
 
 import com.github.zimablue.attrsystem.api.AttributeSystemAPI
 import com.github.zimablue.attrsystem.api.manager.*
+import com.github.zimablue.attrsystem.internal.core.command.ASCommand
 import com.github.zimablue.attrsystem.internal.manager.*
 import com.github.zimablue.devoutserver.plugin.Plugin
+import net.minestom.server.MinecraftServer
 import net.minestom.server.event.EventNode
 
 object AttributeSystem : Plugin() {
@@ -24,6 +26,7 @@ object AttributeSystem : Plugin() {
     override fun onEnable() {
         super.onEnable()
         logger.info("AttributeSystem enabled")
+        MinecraftServer.getCommandManager().register(ASCommand)
 
     }
 
