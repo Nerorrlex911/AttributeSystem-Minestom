@@ -7,7 +7,7 @@ import taboolib.module.configuration.Type
 import java.io.File
 
 fun createIfNotExists(name: String, vararg fileNames: String) {
-    val dir = File(name)
+    val dir = AttributeSystem.dataDirectory.resolve(name).toFile()
     if (!dir.exists()) {
         dir.mkdir()
         for (fileName in fileNames) {

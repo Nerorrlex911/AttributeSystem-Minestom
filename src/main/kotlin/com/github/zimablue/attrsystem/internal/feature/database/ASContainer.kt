@@ -10,7 +10,7 @@ import java.util.*
 
 object ASContainer {
 
-    private val databaseHandler by lazy { DatabaseHandler(AttributeSystem) }
+    private val databaseHandler = DatabaseHandler(AttributeSystem)
 
     private val databaseType: String
         get() = ASConfig.config.getString("database.type")?:"sqlite"

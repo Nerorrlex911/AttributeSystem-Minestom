@@ -5,10 +5,8 @@ import com.github.zimablue.attrsystem.utils.createIfNotExists
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
-
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
-import java.io.File
 import java.util.regex.Pattern
 
 object ASConfig {
@@ -16,6 +14,7 @@ object ASConfig {
 
     lateinit var config: Configuration
     lateinit var lang: Configuration
+    lateinit var options: Configuration
 
     val loreEnable: Boolean
         get() = config.getBoolean("options.lore-enable",false)
@@ -57,6 +56,8 @@ object ASConfig {
     fun onLoad() {
         AttributeSystem.savePackagedResource("config.yml")
         AttributeSystem.savePackagedResource("lang.yml")
+        AttributeSystem.savePackagedResource("slot.yml")
+        AttributeSystem.savePackagedResource("options.yml")
         createIfNotExists("reader", "number/default.yml", "number/percent.yml", "string/string.yml")
         createIfNotExists(
             "attributes",
@@ -72,6 +73,7 @@ object ASConfig {
     fun onEnable() {
         config = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("config.yml").toFile(),Type.YAML)
         lang = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("lang.yml").toFile(),Type.YAML)
+        options = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("options.yml").toFile(),Type.YAML)
         lineConditionPattern = Pattern.compile(lineConditionFormat)
     }
 
