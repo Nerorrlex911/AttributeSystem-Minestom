@@ -12,7 +12,7 @@ class AttributeUpdateEvent {
      * @property data 属性数据集
      */
     class Pre(
-        val entity: Entity,
+        private val entity: Entity,
         val data: AttributeDataCompound,
     ) : EntityEvent {
         override fun getEntity(): Entity {
@@ -27,7 +27,7 @@ class AttributeUpdateEvent {
      * @property data 属性数据集
      */
     class Process(
-        val entity: Entity,
+        private val entity: Entity,
         val data: AttributeDataCompound,
     ) : EntityEvent {
         override fun getEntity(): Entity {
@@ -42,7 +42,7 @@ class AttributeUpdateEvent {
      * @property data 属性数据集
      */
     class Post(
-        val entity: Entity,
+        private val entity: Entity,
         val data: AttributeDataCompound,
     ) : EntityEvent {
         override fun getEntity(): Entity {

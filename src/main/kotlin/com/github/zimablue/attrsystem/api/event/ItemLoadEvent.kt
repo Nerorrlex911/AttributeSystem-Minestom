@@ -17,7 +17,7 @@ class ItemLoadEvent(
     val entity: Entity,
     val itemStack: ItemStack,
 ) : CancellableEvent {
-    var isCancelled = false
+    private var isCancelled = false
     override fun isCancelled(): Boolean {
         return isCancelled
     }

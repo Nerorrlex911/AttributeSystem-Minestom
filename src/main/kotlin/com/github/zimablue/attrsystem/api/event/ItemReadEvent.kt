@@ -19,7 +19,7 @@ class ItemReadEvent(
     val compiledData: ComplexCompiledData,
     val slot: String?,
 ) : CancellableEvent {
-    var isCancelled = false
+    private var isCancelled = false
     override fun isCancelled(): Boolean {
         return isCancelled
     }

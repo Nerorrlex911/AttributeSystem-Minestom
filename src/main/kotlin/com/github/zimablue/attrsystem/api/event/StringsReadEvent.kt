@@ -17,7 +17,7 @@ open class StringsReadEvent(
     val strings: Collection<String>,
     val compiledData: CompiledData,
 ) : CancellableEvent {
-    var isCancelled = false
+    private var isCancelled = false
     override fun isCancelled(): Boolean {
         return isCancelled
     }
