@@ -24,7 +24,9 @@ fun isLiving(entity: Entity?) : Boolean {
 }
 
 fun UUID.livingEntity() : LivingEntity? {
-    // Use EntityFinder to find entities with the given UUID
+    MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(this)?.let {
+        return it
+    }
     MinecraftServer.getInstanceManager().instances.forEach { instance ->
         val entity = instance.getEntityByUuid(this)?:return@forEach
         if (entity is LivingEntity) {

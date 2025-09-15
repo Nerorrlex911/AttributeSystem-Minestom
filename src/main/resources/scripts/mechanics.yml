@@ -1,0 +1,2 @@
+damage: "scripts/mechanics/basic.js::damage"
+crit: "scripts/mechanics/basic.js::crit"

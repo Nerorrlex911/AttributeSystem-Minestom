@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    compileOnly("net.minestom:minestom:2025.08.29-1.21.8")
     compileOnly(fileTree("libs"))
 }
 

@@ -2,9 +2,11 @@ package com.github.zimablue.attrsystem.internal.manager
 
 import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.utils.createIfNotExists
+import com.github.zimablue.attrsystem.utils.langInfo
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
+import com.github.zimablue.devoutserver.util.map.BaseMap
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import java.util.regex.Pattern
@@ -52,12 +54,34 @@ object ASConfig {
     val statsEnd: String
         get() = lang.getString("stats-end")!!
 
+    // FightSystem configs
+
+    lateinit var message: Configuration
+
+    val attackFightKeyMap = BaseMap<String, String>()
+
+    val defaultAttackerName: String
+        get() = message.getString("fight-message.default-name.attacker") ?: "大自然"
+    val defaultDefenderName: String
+        get() = message.getString("fight-message.default-name.defender") ?: "未知"
+
+    val defaultAttackMessageType: String
+        get() = (message.getString("options.default.attack") ?: "HOLO").uppercase()
+
+    val defaultDefendMessageType: String
+        get() = (message.getString("options.default.defend") ?: "CHAT").uppercase()
+
+    val defaultRegainHolo: Boolean
+        get() = message.getBoolean("options.default.health-regain-holo")
+
     @Awake(PluginLifeCycle.LOAD)
     fun onLoad() {
         AttributeSystem.savePackagedResource("config.yml")
         AttributeSystem.savePackagedResource("lang.yml")
         AttributeSystem.savePackagedResource("slot.yml")
         AttributeSystem.savePackagedResource("options.yml")
+
+        AttributeSystem.savePackagedResource("message.yml")
         createIfNotExists("reader", "number/default.yml", "number/percent.yml", "string/string.yml")
         createIfNotExists(
             "attributes",
@@ -71,10 +95,20 @@ object ASConfig {
     }
     @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOW)
     fun onEnable() {
+        onReload()
+    }
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOW)
+    fun onReload() {
         config = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("config.yml").toFile(),Type.YAML)
         lang = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("lang.yml").toFile(),Type.YAML)
         options = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("options.yml").toFile(),Type.YAML)
+        message = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("message.yml").toFile(),Type.YAML)
         lineConditionPattern = Pattern.compile(lineConditionFormat)
+        config.getStringList("options.fight.attack-fight").onEach {
+            val array = it.split("::")
+            if (array.size != 2) return@onEach
+            attackFightKeyMap[array[0]] = array[1]
+        }
     }
 
     val debug: Boolean
@@ -88,7 +122,12 @@ object ASConfig {
     @JvmStatic
     fun debug(debug: String) {
         if (this.debug) {
-            AttributeSystem.logger.debug(debug)
+            AttributeSystem.logger.info(debug)
+        }
+    }
+    fun debugLang(debug: String,vararg args: String) {
+        if (this.debug) {
+            AttributeSystem.logger.langInfo(debug,*args)
         }
     }
 }
