@@ -97,4 +97,5 @@ object FightGroupManagerImpl : FightGroupManager() {
         return if (damage) data.doingDamage(damageValue)
         else damageValue
     }
+    //todo maybe warm up the fight here?
 }

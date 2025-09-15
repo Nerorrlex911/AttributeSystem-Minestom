@@ -4,6 +4,8 @@ import com.github.zimablue.attrsystem.fight.api.manager.PersonalManager
 import com.github.zimablue.attrsystem.fight.internal.feature.personal.PersonalData
 import com.github.zimablue.attrsystem.internal.feature.database.ASContainer
 import com.github.zimablue.attrsystem.internal.manager.ASConfig
+import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
+import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.MinecraftServer
 import net.minestom.server.entity.Player
 import java.util.*
@@ -13,6 +15,7 @@ object PersonalManagerImpl : PersonalManager() {
     override val enable: Boolean
         get() = ASConfig.message.getBoolean("options.personal",true)
 
+    @Awake(PluginLifeCycle.DISABLE)
     fun onDisable() {
         this.forEach {
             val player = MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(it.key) ?: return
