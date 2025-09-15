@@ -1,7 +1,6 @@
 package com.github.zimablue.attrsystem.fight.api.manager
 
-import com.skillw.pouvoir.api.manager.Manager
-import org.bukkit.entity.LivingEntity
+import net.minestom.server.entity.LivingEntity
 import java.util.*
 
 /**
@@ -9,7 +8,7 @@ import java.util.*
  *
  * @constructor Create empty Fight status manager
  */
-abstract class FightStatusManager : Manager {
+abstract class FightStatusManager {
     /**
      * Is fighting
      *
