@@ -36,3 +36,7 @@ update:
 fight-status:
   enable: true
   exit-time: 100
+disable-attack-types:
+  values:
+    - BOW
+    - CROSSBOW
