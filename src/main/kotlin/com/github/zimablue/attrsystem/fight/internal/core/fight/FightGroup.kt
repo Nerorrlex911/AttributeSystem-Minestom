@@ -8,6 +8,7 @@ import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debugLang
 import com.github.zimablue.devoutserver.util.map.LinkedKeyMap
 import com.github.zimablue.devoutserver.util.map.component.Registrable
+import net.minestom.server.event.EventDispatcher
 import taboolib.library.configuration.ConfigurationSection
 import java.util.function.Function
 
@@ -42,11 +43,11 @@ class FightGroup(
             debugLang("fight-info-damage-type", type.name)
             var fightData = FightData(originData)
             val before = DamageTypeRunEvent.Pre(type, fightData, false)
-            AttributeSystem.asEventNode.call(before)
+            EventDispatcher.call(before)
             fightData = before.fightData
             if (!(this[type]!!.run(fightData) || before.enable)) continue
             val post = DamageTypeRunEvent.Post(type, fightData)
-            AttributeSystem.asEventNode.call(post)
+            EventDispatcher.call(post)
             fightData = post.fightData
             val result = fightData.calResult()
             fightData["result"] = result

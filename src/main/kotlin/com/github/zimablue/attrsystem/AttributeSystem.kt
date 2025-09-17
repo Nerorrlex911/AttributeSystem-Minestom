@@ -47,4 +47,9 @@ object AttributeSystem : Plugin() {
 
     }
 
+    override fun onActive() {
+        super.onActive()
+        //todo some assertions for testing
+    }
+
 }

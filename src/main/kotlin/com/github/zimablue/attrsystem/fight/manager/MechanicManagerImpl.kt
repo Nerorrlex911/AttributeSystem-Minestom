@@ -7,6 +7,7 @@ import com.github.zimablue.attrsystem.fight.api.manager.MechanicManager
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
+import net.minestom.server.event.EventDispatcher
 
 object MechanicManagerImpl: MechanicManager() {
     @Awake(PluginLifeCycle.ENABLE)
@@ -20,7 +21,7 @@ object MechanicManagerImpl: MechanicManager() {
 
     override fun register(key: String, value: Mechanic): Mechanic? {
         val event = MechanicRegisterEvent(value)
-        AttributeSystem.asEventNode.call(event)
+        EventDispatcher.call(event)
         debug {
             AttributeSystem.logger.info("机制注册 key: $key, value: $value")
         }

@@ -9,6 +9,7 @@ import com.github.zimablue.attrsystem.utils.sendLang
 import com.github.zimablue.devoutserver.util.map.BaseMap
 import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
+import net.minestom.server.event.EventDispatcher
 import net.minestom.server.timer.Task
 import net.minestom.server.utils.time.TimeUnit
 import java.util.*
@@ -44,7 +45,7 @@ object FightStatusManagerImpl : FightStatusManager() {
         if (!isEnable) return
         val uuid = entity.uuid
         val event = EntityFightStatusEvent.In(entity as? Player? ?: return)
-        AttributeSystem.asEventNode.call(event)
+        EventDispatcher.call(event)
         if (event.isCancelled) return
         if (!fights.contains(uuid)) {
             (entity as? Player?)?.sendLang("fight-in")
@@ -60,7 +61,7 @@ object FightStatusManagerImpl : FightStatusManager() {
     override fun outFighting(entity: LivingEntity) {
         val uuid = entity.uuid
         val event = EntityFightStatusEvent.Out(entity)
-        AttributeSystem.asEventNode.call(event)
+        EventDispatcher.call(event)
         if (event.isCancelled) return
         fights.remove(uuid)
         tasks[uuid]?.cancel()

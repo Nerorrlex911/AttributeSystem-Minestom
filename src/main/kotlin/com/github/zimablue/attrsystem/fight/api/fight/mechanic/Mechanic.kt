@@ -5,6 +5,7 @@ import com.github.zimablue.attrsystem.fight.api.event.MechanicRunEvent
 import com.github.zimablue.attrsystem.fight.api.fight.DamageType
 import com.github.zimablue.attrsystem.fight.api.fight.FightData
 import com.github.zimablue.devoutserver.util.map.component.Registrable
+import net.minestom.server.event.EventDispatcher
 
 
 /**
@@ -50,12 +51,12 @@ abstract class Mechanic(override val key: String) :
     ): Any? {
         val before =
             MechanicRunEvent.Pre(this, fightData, context, damageType, null)
-        AttributeSystem.asEventNode.call(before)
+        EventDispatcher.call(before)
         val result = exec(fightData, context, damageType)
         if (before.isCancelled) return null
         val post =
             MechanicRunEvent.Post(this, fightData, context, damageType, result)
-        AttributeSystem.asEventNode.call(post)
+        EventDispatcher.call(post)
         if (post.isCancelled) return null
         return post.result
     }

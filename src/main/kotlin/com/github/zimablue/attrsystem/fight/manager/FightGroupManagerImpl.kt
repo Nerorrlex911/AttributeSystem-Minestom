@@ -12,6 +12,7 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.entity.Player
 import net.minestom.server.entity.damage.Damage
+import net.minestom.server.event.EventDispatcher
 import net.minestom.server.tag.Tag
 import taboolib.common5.cfloat
 import taboolib.module.configuration.Configuration
@@ -71,19 +72,19 @@ object FightGroupManagerImpl : FightGroupManager() {
         val messageData = MessageData()
 
         val before = FightEvent.Pre(key, fightData)
-        AttributeSystem.asEventNode.call(before)
+        EventDispatcher.call(before)
         var eventFightData = before.fightData
         //println("Pre Cancelled : ${before.isCancelled}")
         if (before.isCancelled || eventFightData.event?.isCancelled == true) return -0.1
         val result = AttributeSystem.fightGroupManager[key]!!.run(eventFightData)
 
         val process = FightEvent.Process(key, eventFightData)
-        AttributeSystem.asEventNode.call(process)
+        EventDispatcher.call(process)
         if (process.isCancelled || eventFightData.event?.isCancelled == true) return -0.1
 
         eventFightData = process.fightData
         val post = FightEvent.Post(key, eventFightData)
-        AttributeSystem.asEventNode.call(post)
+        EventDispatcher.call(post)
         eventFightData = post.fightData
         if (post.isCancelled || eventFightData.event?.isCancelled == true) return -0.1
 

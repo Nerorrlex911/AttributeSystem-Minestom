@@ -7,6 +7,7 @@ import com.github.zimablue.attrsystem.fight.api.fight.FightData
 import com.github.zimablue.attrsystem.fight.api.fight.mechanic.Mechanic
 import com.github.zimablue.attrsystem.utils.langInfo
 import com.github.zimablue.devoutserver.util.map.component.Keyable
+import net.minestom.server.event.EventDispatcher
 import taboolib.library.configuration.ConfigurationSection
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.jvm.optionals.getOrNull
@@ -27,7 +28,7 @@ class MechanicDataCompound private constructor(
     companion object {
         private fun loadMechanicEvent(key:String): Mechanic? {
             val event = MechanicLoadEvent(key)
-            AttributeSystem.asEventNode.call(event)
+            EventDispatcher.call(event)
             return event.mechanic.getOrNull()?.apply { register() }
         }
 

@@ -16,6 +16,7 @@ import com.github.zimablue.devoutserver.util.uncolored
 import com.github.zimablue.pouplaceholder.PouPlaceholder
 import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
+import net.minestom.server.event.EventDispatcher
 import net.minestom.server.event.trait.CancellableEvent
 import taboolib.common.util.asList
 import taboolib.common5.Coerce

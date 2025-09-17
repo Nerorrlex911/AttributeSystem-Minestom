@@ -5,6 +5,30 @@ import com.github.zimablue.devoutserver.util.colored
 import net.minestom.server.command.CommandSender
 import org.slf4j.Logger
 
+fun CommandSender.sendLang(path: String) {
+    if (!lang.contains(path)) {
+        sendMessage("§c[AttrSystem] §4Lang '$path' not found!")
+        return
+    }
+    when (val value = lang[path]) {
+        is String -> {
+            sendMessage(value.colored())
+        }
+
+        is List<*> -> {
+            sendMessage("§c[AttrSystem] §e------------------")
+            value.filterIsInstance<String>().forEach { msg ->
+                sendMessage(msg.colored())
+            }
+            sendMessage("§c[AttrSystem] §e------------------")
+        }
+
+        else -> {
+            sendMessage("§c[AttrSystem] §4Lang '$path'")
+        }
+    }
+}
+
 fun CommandSender.sendLang(path: String, vararg args: Any) {
     if (!lang.contains(path)) {
         sendMessage("§c[AttrSystem] §4Lang '$path' not found!")

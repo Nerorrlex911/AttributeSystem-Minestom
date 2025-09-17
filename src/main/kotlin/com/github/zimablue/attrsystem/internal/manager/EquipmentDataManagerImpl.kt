@@ -15,6 +15,7 @@ import com.github.zimablue.attrsystem.internal.core.equipment.NormalEquipmentLoa
 import com.github.zimablue.attrsystem.utils.isAlive
 import com.github.zimablue.attrsystem.utils.validEntity
 import net.minestom.server.entity.LivingEntity
+import net.minestom.server.event.EventDispatcher
 import net.minestom.server.item.ItemStack
 import net.minestom.server.tag.Tag
 import java.util.*
@@ -50,7 +51,7 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
         var data = uncheckedGet(uuid) ?: EquipmentDataCompound(entity)
         equipmentDataManager.register(uuid, data)
         val pre = EquipmentUpdateEvent.Pre(entity, data)
-        AttributeSystem.asEventNode.call(pre)
+        EventDispatcher.call(pre)
         //不允许取消的事件还检测isCancelled，这不是脱裤子放屁吗？
 //        if (pre.isCancelled) {
 //            return data
@@ -60,7 +61,7 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
         entity.loadEquipments(data)
 
         val postEvent = EquipmentUpdateEvent.Post(entity, data)
-        AttributeSystem.asEventNode.call(postEvent)
+        EventDispatcher.call(postEvent)
 //        if (postEvent.isCancelled) {
 //            return data
 //        }
@@ -94,7 +95,7 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
             return null
         }
         val event = ItemLoadEvent(entity, item)
-        AttributeSystem.asEventNode.call(event)
+        EventDispatcher.call(event)
         if (event.isCancelled) {
             removeItem(source, slot)
             return null

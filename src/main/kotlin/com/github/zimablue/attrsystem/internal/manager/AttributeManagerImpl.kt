@@ -14,6 +14,7 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import com.github.zimablue.devoutserver.util.map.BaseMap
 import com.github.zimablue.devoutserver.util.map.LowerMap
+import net.minestom.server.event.EventDispatcher
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import java.io.File
@@ -103,7 +104,7 @@ object AttributeManagerImpl: AttributeManager() {
                 "[AttributeSystem] Registered Attribute: ${value.display} (Priority: ${value.priority})"
             )
         }
-        AttributeSystem.asEventNode.call(AttributeRegisterEvent(value))
+        EventDispatcher.call(AttributeRegisterEvent(value))
         return super.put(key, value)
     }
 

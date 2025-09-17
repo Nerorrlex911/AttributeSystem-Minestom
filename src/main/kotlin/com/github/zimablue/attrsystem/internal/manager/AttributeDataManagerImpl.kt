@@ -12,6 +12,7 @@ import com.github.zimablue.attrsystem.internal.feature.personal.InitialAttrData.
 import com.github.zimablue.attrsystem.utils.isAlive
 import com.github.zimablue.attrsystem.utils.validEntity
 import net.minestom.server.entity.LivingEntity
+import net.minestom.server.event.EventDispatcher
 import java.util.*
 
 object AttributeDataManagerImpl: AttributeDataManager() {
@@ -31,7 +32,7 @@ object AttributeDataManagerImpl: AttributeDataManager() {
         //PRE
         val preEvent =
             AttributeUpdateEvent.Pre(entity, attrData)
-        AttributeSystem.asEventNode.call(preEvent)
+        EventDispatcher.call(preEvent)
         attrData = preEvent.data
         attrData.release()
         //PROCESS
@@ -42,7 +43,7 @@ object AttributeDataManagerImpl: AttributeDataManager() {
 
         val process =
             AttributeUpdateEvent.Process(entity, attrData)
-        AttributeSystem.asEventNode.call(process)
+        EventDispatcher.call(process)
         attrData = process.data
         this[uuid] = attrData
         attrData.init()
@@ -52,7 +53,7 @@ object AttributeDataManagerImpl: AttributeDataManager() {
         //AFTER
         val postEvent =
             AttributeUpdateEvent.Post(entity, attrData)
-        AttributeSystem.asEventNode.call(postEvent)
+        EventDispatcher.call(postEvent)
         attrData = postEvent.data
         this[uuid] = attrData
         return attrData
