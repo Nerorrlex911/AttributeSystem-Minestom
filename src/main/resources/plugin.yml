@@ -7,3 +7,9 @@ version: "1.0-SNAPSHOT"
 dependencies:
   - "PlayerDatabase"
   - "PouPlaceholder"
+externalDependencies:
+  repositories:
+    - name: "central"
+      url: "https://repo.maven.apache.org/maven2/"
+  artifacts:
+    - "com.ezylang:EvalEx:3.5.0"
