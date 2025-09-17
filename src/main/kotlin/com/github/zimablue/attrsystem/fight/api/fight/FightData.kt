@@ -1,11 +1,14 @@
 package com.github.zimablue.attrsystem.fight.api.fight
 
 import com.github.zimablue.attrsystem.AttributeSystem
+import com.github.zimablue.attrsystem.api.AttrAPI.getAttrData
 import com.github.zimablue.attrsystem.api.attribute.compound.AttributeDataCompound
 import com.github.zimablue.attrsystem.api.operation.OperationElement
 import com.github.zimablue.attrsystem.fight.api.event.FightDataHandleEvent
 import com.github.zimablue.attrsystem.fight.api.fight.message.MessageData
+import com.github.zimablue.attrsystem.internal.feature.calc.FormulaParser
 import com.github.zimablue.attrsystem.internal.feature.compat.placeholder.AttributePlaceHolder
+import com.github.zimablue.attrsystem.internal.feature.evalex.EvalEx
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.attrsystem.internal.manager.ScriptManager
 import com.github.zimablue.attrsystem.utils.parse
@@ -228,7 +231,7 @@ class FightData(attacker: LivingEntity?, defender: LivingEntity?) : ConcurrentHa
      */
     fun handleStr(string: String, log: Boolean = true): String {
         val event = FightDataHandleEvent(this, string)
-        AttributeSystem.asEventNode.call(event)
+        EventDispatcher.call(event)
         var formula = event.string
         val list = formula.parse('{', '}')
         for (str in list) {
@@ -262,18 +265,22 @@ class FightData(attacker: LivingEntity?, defender: LivingEntity?) : ConcurrentHa
                 // File::Path::function::Aparms
                 startsWith("File::") -> {
                     val new = substring(6)
-                    val array = new.split("::")
-                    val path = array[0]
-                    val function = array[1]
                     val arguments = this@FightData
                     ScriptManager.pluginScriptManager.run(
-                        path,
-                        function,
+                        new,
                         arguments,
                         this@FightData
                     ).toString()
                 }
-                else -> ""
+                startsWith("Formula::") -> {
+                    val form = substring(9)
+                    FormulaParser.calculate(form).toString()
+                }
+                startsWith("EvalEx::") -> {
+                    val form = substring(8)
+                    EvalEx.eval(form).toString()
+                }
+                else -> formula
             }
         }
 

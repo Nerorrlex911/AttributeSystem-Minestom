@@ -1,5 +1,54 @@
 Plus = operation("Plus")
 Scalar = operation("Scalar")
+/*
+set type = when of {type} {
+case == 'PVP' -> '{a.as_att:PVPDamage} - {d.as_att:PVPDefense}'
+case == 'PVE' -> '{a.as_att:PVEDamage} - {d.as_att:PVEDefense}'
+else -> 0
+}
+set projectile to if check {projectile} == true then '{a.as_att:ProjectileDamage} - {d.as_att:ProjectileDefense}' else '0'
+set damage to '{a.as_att:PhysicalDamage} + {origin}'
+set defense to if check random 0 to 1 < {a.as_att:PhysicalDefenseIgnore} then 0 else '{d.as_att:PhysicalDefense} - {a.as_att:PhysicalPenetration}'
+set force to if has force then {force} else 1
+calculate '{&damage} + {$type} + {&projectile} - {&defense} ) * {&force}'
+ */
+function defaultGroup(data) {
+    const aAttrData = AttrAPI.getAttrData(data.attacker);
+    const dAttrData = AttrAPI.getAttrData(data.defender);
+    let typeDamage = 0.0;
+    let projectileDamage = 0.0;
+    let defense = 0.0
+    let force = 1.0;
+    switch (this["type"]) {
+        case "PVP":
+            typeDamage = toDouble(aAttrData.getAttrValue("PVPDamage")) - toDouble(dAttrData.getAttrValue("PVPDefense"));
+            break;
+        case "PVE":
+            typeDamage = toDouble(aAttrData.getAttrValue("PVEDamage")) - toDouble(dAttrData.getAttrValue("PVEDefense"));
+            break;
+        default:
+            typeDamage = 0.0;
+            break;
+    }
+    if (this["projectile"] === true) {
+        projectileDamage = toDouble(aAttrData.getAttrValue("ProjectileDamage")) - toDouble(dAttrData.getAttrValue("ProjectileDefense"));
+    } else {
+        projectileDamage = 0.0;
+    }
+    if (Math.random() < toDouble(aAttrData.getAttrValue("PhysicalDefenseIgnore"))) {
+        defense = 0.0;
+    } else {
+        defense = toDouble(dAttrData.getAttrValue("PhysicalDefense")) - toDouble(aAttrData.getAttrValue("PhysicalPenetration"));
+    }
+    if(data.containsKey("force")) {
+        force = toDouble(data.get("force"));
+    }
+    const damage = (toDouble(aAttrData.getAttrValue("PhysicalDamage")) + toDouble(data.calResult()));
+    return (damage + typeDamage + projectileDamage - defense)*force
+
+
+}
+
 //@Mechanic(damage)
 function damage(data, context, damageType) {
     const enable = data.handle(context.get("enable"));

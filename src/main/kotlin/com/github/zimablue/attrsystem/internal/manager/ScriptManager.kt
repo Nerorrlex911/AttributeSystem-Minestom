@@ -22,7 +22,15 @@ import java.util.regex.Pattern
 import javax.script.ScriptContext.ENGINE_SCOPE
 
 object ScriptManager {
-    val pluginScriptManager = PluginScriptManager(AttributeSystem,File(AttributeSystem.dataDirectory.toFile(),"scripts"))
+    val pluginScriptManager = PluginScriptManager(AttributeSystem,File(AttributeSystem.dataDirectory.toFile(),"scripts")) {
+        eval("""
+            const AttributeSystem = Packages.com.github.zimablue.attrsystem.AttributeSystem;
+            const AttrAPI = Packages.com.github.zimablue.attrsystem.api.AttrAPI;
+            function operation(name) {
+                return AttributeSystem.operationManager[name];
+            }
+        """.trimIndent())
+    }
 
     lateinit var mechanics: Configuration
 
