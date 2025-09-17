@@ -42,3 +42,4 @@ options:
     #权限::战斗组
     attack-fight:
       - as.class.b::class-a-attack
+parent-node: "global"

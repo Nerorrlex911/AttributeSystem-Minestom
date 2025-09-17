@@ -7,6 +7,7 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import com.github.zimablue.devoutserver.util.map.BaseMap
+import net.minestom.server.MinecraftServer
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import java.util.regex.Pattern
@@ -117,6 +118,13 @@ object ASConfig {
     @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOW)
     fun onEnable() {
         onReload()
+        val parentNode = config.getString("parent-node","global")
+        if(parentNode=="global") {
+            MinecraftServer.getGlobalEventHandler().addChild(AttributeSystem.asEventNode)
+        } else {
+            val node = MinecraftServer.getGlobalEventHandler().findChildren(parentNode)[0]
+            node?.addChild(AttributeSystem.asEventNode)
+        }
     }
     @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOW)
     fun onReload() {
