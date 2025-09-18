@@ -263,7 +263,7 @@ class FightData(attacker: LivingEntity?, defender: LivingEntity?) : ConcurrentHa
         val value = formula.run {
             when {
                 startsWith("!") -> substring(1)
-                // File::Path::function::Aparms
+                // File::Path::function with context
                 startsWith("File::") -> {
                     val new = substring(6)
                     val arguments = this@FightData
@@ -272,6 +272,11 @@ class FightData(attacker: LivingEntity?, defender: LivingEntity?) : ConcurrentHa
                         arguments,
                         this@FightData
                     ).toString()
+                }
+                // js::code no context
+                startsWith("js::") -> {
+                    val js = substring(4)
+                    ScriptManager.jsCalc(js).toString()
                 }
                 startsWith("Formula::") -> {
                     val form = substring(9)
