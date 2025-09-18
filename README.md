@@ -11,6 +11,8 @@ This project is on heavy development and not ready for production.
 由于Minestom与Bukkit fork的API有极大差异，本项目对原版AttributeSystem进行了大幅重构，
 尽管作者想要尽可能地保留原项目的使用体验，但仍然有不少改动，不能与原项目的配置文件完全兼容。
 
+目前为止，本项目强依赖于DevoutServer核心
+
 主要改动如下：
 
 ## 属性读取
@@ -37,6 +39,7 @@ AttributeSystem-Minestom只对原版属性进行简单映射，本质上只是�
 1. 简单公式，支持常规数学运算符号以及“~”(取随机数)符号 在表达式字符串前加入"Formula::"以使用
 2. [EvalEx](https://ezylang.github.io/EvalEx/references/functions.html)公式计算，在表达式字符串前加入"EvalEx::"以使用EvalEx解析公式计算
 3. JavaScript解析，在表达式字符串前加入"js::"以使用js解析公式计算，或通过"File::path::function"的方式调用脚本文件中的函数计算
+
 三种计算方式的自由度依次递增，性能依次递减，根据你的需求，选择最有性价比的计算方式
 ## 占位符
 Minestom平台目前没有类似PlaceholderAPI的库，本项目的占位符依赖PouPlaceholder插件

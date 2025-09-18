@@ -53,7 +53,9 @@ object UpdateManager {
             addListener(EntityTickEvent::class.java) { event ->
                 val entity = event.entity
                 if(!entity.isAlive()) return@addListener
-                if(entity.aliveTicks%updatePeriod == 0L) attributeSystemAPI.update(entity as LivingEntity)
+                entity as LivingEntity
+                if(entity.aliveTicks%updatePeriod == 0L) attributeSystemAPI.update(entity)
+                HealthRegainManager.regain(entity)
             }
             addListener(EntitySpawnEvent::class.java) { event ->
                 if(event.entity.isAlive()) attributeSystemAPI.update(event.entity as LivingEntity)

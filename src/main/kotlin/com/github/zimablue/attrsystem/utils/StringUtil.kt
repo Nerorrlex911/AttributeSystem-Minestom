@@ -1,5 +1,8 @@
 package com.github.zimablue.attrsystem.utils
 
+import com.github.zimablue.attrsystem.internal.feature.calc.FormulaParser
+import com.github.zimablue.attrsystem.internal.feature.evalex.EvalEx
+import com.github.zimablue.attrsystem.internal.manager.ScriptManager
 import com.github.zimablue.pouplaceholder.PouPlaceholder
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
@@ -54,4 +57,14 @@ fun String.toMiniMessage(): Component {
 
 fun String.placeholder(entity: LivingEntity): String {
     return PouPlaceholder.placeholderManager.replace(entity,this)
+}
+
+fun String.simpleCalc() : Any {
+    return if (startsWith("js::")) {
+        ScriptManager.jsCalc(this)
+    } else if(startsWith("EvalEx::")) {
+        EvalEx.eval(this)
+    } else {
+        FormulaParser.calculate(this)
+    }
 }

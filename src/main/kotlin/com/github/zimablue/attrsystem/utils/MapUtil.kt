@@ -1,10 +1,6 @@
 package com.github.zimablue.attrsystem.utils
 
-import com.github.zimablue.attrsystem.internal.feature.calc.FormulaParser.calculate
-import com.github.zimablue.attrsystem.internal.feature.evalex.EvalEx
-import com.github.zimablue.attrsystem.internal.manager.ScriptManager
 import net.minestom.server.entity.LivingEntity
-import taboolib.library.configuration.ConfigurationSection
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -54,13 +50,7 @@ internal fun <T : Any> T.replaceThenCalc(replacement: Map<String, String>, entit
 
         is String -> {
             val replaced = replacement(replacement)
-            if (replaced.startsWith("js::")) {
-                ScriptManager.jsCalc(replaced)
-            } else if(replaced.startsWith("EvalEx::")) {
-                EvalEx.eval(replaced)
-            } else {
-                calculate(replaced)
-            }
+            replaced.simpleCalc()
         }
 
         else -> this

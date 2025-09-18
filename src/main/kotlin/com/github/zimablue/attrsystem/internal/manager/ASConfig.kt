@@ -75,7 +75,7 @@ object ASConfig {
     val defaultRegainHolo: Boolean
         get() = message.getBoolean("options.default.health-regain-holo")
 
-    @Awake(PluginLifeCycle.LOAD)
+    @Awake(PluginLifeCycle.LOAD,AwakePriority.LOW)
     fun onLoad() {
         AttributeSystem.savePackagedResource("config.yml")
         AttributeSystem.savePackagedResource("lang.yml")

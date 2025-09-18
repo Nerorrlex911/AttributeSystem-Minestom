@@ -42,7 +42,6 @@ object AttributeSystem : Plugin() {
     override fun onEnable() {
         super.onEnable()
         logger.info("AttributeSystem enabled")
-        EntityType.ARMOR_STAND
         MinecraftServer.getCommandManager().register(ASCommand)
 
     }
