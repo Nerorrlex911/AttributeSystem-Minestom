@@ -11,7 +11,7 @@ database:
   #每10分钟同步一次 （tick）
   user-container-sync-time: 12000
 options:
-  debug: false
+  debug: true
   lore-enable: false #Lore读取属性是否启用，默认关闭
   read:
     #当行中有这些之一时，忽略此行属性

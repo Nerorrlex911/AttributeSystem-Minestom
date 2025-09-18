@@ -15,6 +15,8 @@ object AttributeSystemAPIImpl : AttributeSystemAPI {
 
         AttributeSystem.attributeDataManager.update(entity)
 
+        VanillaAttributeManager.update(entity)
+
     }
 
 
