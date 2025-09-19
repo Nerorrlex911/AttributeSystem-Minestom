@@ -8,7 +8,7 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
 import net.minestom.server.event.player.PlayerDisconnectEvent
 
-private object Personal {
+object Personal {
 
     @Awake(PluginLifeCycle.ENABLE)
     fun onEnable() {

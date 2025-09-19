@@ -83,6 +83,7 @@ object ASConfig {
         AttributeSystem.savePackagedResource("options.yml")
 
         AttributeSystem.savePackagedResource("message.yml")
+        AttributeSystem.savePackagedResource("mechanics.yml")
         createIfNotExists("reader", "number/default.yml", "number/percent.yml", "string/string.yml")
         createIfNotExists(
             "attributes",

@@ -1,6 +1,7 @@
 package com.github.zimablue.attrsystem.internal.feature.vanilla
 
 import com.github.zimablue.attrsystem.internal.feature.calc.FormulaParser
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.attrsystem.internal.manager.VanillaAttributeManager
 import com.github.zimablue.attrsystem.internal.manager.VanillaAttributeManager.vanilla
 import com.github.zimablue.attrsystem.utils.simpleCalc
@@ -22,7 +23,7 @@ class VanillaAttribute(
     val value: String
         get() = vanilla.getString("$key.value", "0")!!
     private val attr: Attribute = Attribute.fromKey(key)?: throw IllegalArgumentException("Invalid vanilla attribute name: $key")
-    private val attrKey = Key.key("AS-${attr.name()}")
+    private val attrKey = Key.key("as-${attr.name()}")
     private val cacheTag = Tag.Double("attrsystem.previous.${attr.name()}")
     fun getValue(entity: LivingEntity): Double {
         val attrValue = PouPlaceholder.placeholderManager.replace(entity, value).simpleCalc().cdouble
@@ -54,5 +55,6 @@ class VanillaAttribute(
 
     override fun register() {
         VanillaAttributeManager.register(this)
+        debug("[AttributeSystem] Registered vanilla attribute: $key")
     }
 }

@@ -6,11 +6,14 @@ import com.github.zimablue.attrsystem.fight.internal.feature.message.builder.ASA
 import com.github.zimablue.attrsystem.fight.internal.feature.message.builder.ASChatBuilder
 import com.github.zimablue.attrsystem.fight.internal.feature.message.builder.ASHoloBuilder
 import com.github.zimablue.attrsystem.fight.internal.feature.message.builder.ASTitleBuilder
+import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
+import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import com.github.zimablue.devoutserver.util.map.LowerKeyMap
 
 object MessageBuilderManagerImpl:MessageBuilderManager() {
 
-    init {
+    @Awake(PluginLifeCycle.LOAD)
+    fun onLoad() {
         ASActionBarBuilder.register()
         ASChatBuilder.register()
         ASHoloBuilder.register()

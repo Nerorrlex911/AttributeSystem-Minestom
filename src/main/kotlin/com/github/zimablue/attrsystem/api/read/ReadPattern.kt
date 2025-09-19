@@ -4,6 +4,7 @@ import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.api.attribute.Attribute
 import com.github.zimablue.attrsystem.api.operation.Operation
 import com.github.zimablue.attrsystem.api.read.status.Status
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.util.map.LowerMap
 import com.github.zimablue.devoutserver.util.map.component.Registrable
 import net.kyori.adventure.text.Component
@@ -127,5 +128,6 @@ abstract class ReadPattern<A : Any>(
 
     override fun register() {
         AttributeSystem.readPatternManager.register(this)
+        debug("[AttributeSystem] Registered read pattern: $key")
     }
 }

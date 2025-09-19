@@ -4,6 +4,7 @@ import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.fight.api.event.MechanicRunEvent
 import com.github.zimablue.attrsystem.fight.api.fight.DamageType
 import com.github.zimablue.attrsystem.fight.api.fight.FightData
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.util.map.component.Registrable
 import net.minestom.server.event.EventDispatcher
 
@@ -63,6 +64,7 @@ abstract class Mechanic(override val key: String) :
 
     final override fun register() {
         AttributeSystem.mechanicManager.register(this)
+        debug("[AttributeSystem] Registered Mechanic: $key")
     }
 
 }

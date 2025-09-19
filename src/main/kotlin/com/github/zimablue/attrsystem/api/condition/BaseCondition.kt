@@ -1,6 +1,7 @@
 package com.github.zimablue.attrsystem.api.condition
 
 import com.github.zimablue.attrsystem.AttributeSystem
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.util.map.component.Registrable
 import net.minestom.server.entity.LivingEntity
 import java.util.*
@@ -96,6 +97,7 @@ abstract class BaseCondition(override val key: String) :
 
     override fun register() {
         AttributeSystem.conditionManager.register(this)
+        debug("[AttributeSystem] Registered condition: $key")
     }
 
     override fun equals(other: Any?): Boolean {

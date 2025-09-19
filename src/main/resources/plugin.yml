@@ -11,5 +11,7 @@ externalDependencies:
   repositories:
     - name: "central"
       url: "https://repo.maven.apache.org/maven2/"
+    - name: "aliyun_central"
+      url: "https://maven.aliyun.com/repository/central"
   artifacts:
     - "com.ezylang:EvalEx:3.5.0"

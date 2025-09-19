@@ -22,9 +22,6 @@ object MechanicManagerImpl: MechanicManager() {
     override fun register(key: String, value: Mechanic): Mechanic? {
         val event = MechanicRegisterEvent(value)
         EventDispatcher.call(event)
-        debug {
-            AttributeSystem.logger.info("机制注册 key: $key, value: $value")
-        }
         if (event.isCancelled) return null
         return put(key, value)
     }

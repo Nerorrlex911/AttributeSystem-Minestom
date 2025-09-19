@@ -17,12 +17,14 @@ import taboolib.common5.cbool
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import taboolib.module.configuration.util.asMap
-import java.io.File
 import java.util.regex.Pattern
 import javax.script.ScriptContext.ENGINE_SCOPE
 
 object ScriptManager {
-    val pluginScriptManager = PluginScriptManager(AttributeSystem,File(AttributeSystem.dataDirectory.toFile(),"scripts")) {
+    val pluginScriptManager = PluginScriptManager(
+        plugin=AttributeSystem,
+        path=AttributeSystem.dataDirectory.resolve("scripts").toFile()
+    ) {
         eval("""
             const AttributeSystem = Packages.com.github.zimablue.attrsystem.AttributeSystem;
             const AttrAPI = Packages.com.github.zimablue.attrsystem.api.AttrAPI;
@@ -45,6 +47,8 @@ object ScriptManager {
         }
         conditionKeys.clear()
 
+        logger.info("script keys:"+pluginScriptManager.compiledScripts.keys.toString())
+        logger.info("path:"+ pluginScriptManager.scriptFolder.path)
         pluginScriptManager.compiledScripts.forEach { (name, script) ->
             val vars = script.scriptEngine.getBindings(ENGINE_SCOPE)
             val key = vars["key"]?.toString() ?: return@forEach

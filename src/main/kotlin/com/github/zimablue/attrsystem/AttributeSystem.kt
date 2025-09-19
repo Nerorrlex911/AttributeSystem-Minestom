@@ -3,18 +3,18 @@ package com.github.zimablue.attrsystem
 import com.github.zimablue.attrsystem.api.AttributeSystemAPI
 import com.github.zimablue.attrsystem.api.manager.*
 import com.github.zimablue.attrsystem.fight.api.manager.*
-import com.github.zimablue.attrsystem.fight.manager.MechanicManagerImpl
-import com.github.zimablue.attrsystem.fight.manager.MessageBuilderManagerImpl
+import com.github.zimablue.attrsystem.fight.manager.*
 import com.github.zimablue.attrsystem.internal.core.command.ASCommand
 import com.github.zimablue.attrsystem.internal.manager.*
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.plugin.Plugin
 import net.minestom.server.MinecraftServer
-import net.minestom.server.entity.EntityType
+import net.minestom.server.event.Event
 import net.minestom.server.event.EventNode
 
 object AttributeSystem : Plugin() {
 
-    val asEventNode = EventNode.all("AttributeSystem-Node")
+    val asEventNode: EventNode<Event> = EventNode.all("AttributeSystem-Node")
 
     val attributeManager : AttributeManager = AttributeManagerImpl
     val attributeDataManager : AttributeDataManager = AttributeDataManagerImpl
@@ -31,13 +31,13 @@ object AttributeSystem : Plugin() {
     val mechanicManager: MechanicManager = MechanicManagerImpl
     val messageBuilderManager: MessageBuilderManager = MessageBuilderManagerImpl
 
-    lateinit var damageTypeManager: DamageTypeManager
+    val damageTypeManager: DamageTypeManager = DamageTypeManagerImpl
 
-    lateinit var fightGroupManager: FightGroupManager
+    val fightGroupManager: FightGroupManager = FightGroupManagerImpl
     
-    lateinit var personalManager: PersonalManager
+    val personalManager: PersonalManager = PersonalManagerImpl
     
-    lateinit var fightStatusManager: FightStatusManager
+    val fightStatusManager: FightStatusManager = FightStatusManagerImpl
 
     override fun onEnable() {
         super.onEnable()
@@ -49,6 +49,10 @@ object AttributeSystem : Plugin() {
     override fun onActive() {
         super.onActive()
         //todo some assertions for testing
+        debug {
+            logger.info("AttributeSystem active")
+            logger.info("loaded scripts: ${ScriptManager.pluginScriptManager.compiledScripts.keys}")
+        }
     }
 
 }

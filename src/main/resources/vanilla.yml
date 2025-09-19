@@ -4,18 +4,18 @@
 #fly-speed:
 # enable: true
 # value: %as_att:FlySpeed%
-max-health:
+max_health:
   enable: true
   value: "%as_att:MaxHealth%"
-movement-speed:
+movement_speed:
   enable: true
   value: "%as_att:MovementSpeed% / 2250"
-knockback-resistance:
+knockback_resistance:
   #击退抗性
   enable: true
   value: "%as_att:Resistance%"
 #下面这些只支持玩家
-attack-speed:
+attack_speed:
   #单位为 攻击次数/s
   enable: true
   value: "%as_att:AttackSpeed%"

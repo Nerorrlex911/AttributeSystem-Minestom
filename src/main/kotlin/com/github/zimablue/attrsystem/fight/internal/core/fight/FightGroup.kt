@@ -100,5 +100,6 @@ class FightGroup(
 
     override fun register() {
         AttributeSystem.fightGroupManager.register(this)
+        debug("[AttributeSystem] Registered FightGroup: { $key }")
     }
 }
