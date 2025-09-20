@@ -51,7 +51,6 @@ object AttributeSystem : Plugin() {
         //todo some assertions for testing
         debug {
             logger.info("AttributeSystem active")
-            logger.info("loaded scripts: ${ScriptManager.pluginScriptManager.compiledScripts.keys}")
         }
     }
 

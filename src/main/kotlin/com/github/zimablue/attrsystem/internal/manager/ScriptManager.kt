@@ -47,8 +47,6 @@ object ScriptManager {
         }
         conditionKeys.clear()
 
-        logger.info("script keys:"+pluginScriptManager.compiledScripts.keys.toString())
-        logger.info("path:"+ pluginScriptManager.scriptFolder.path)
         pluginScriptManager.compiledScripts.forEach { (name, script) ->
             val vars = script.scriptEngine.getBindings(ENGINE_SCOPE)
             val key = vars["key"]?.toString() ?: return@forEach
@@ -104,6 +102,12 @@ object ScriptManager {
             mechanicKeys.add(key)
             debug("Mechanic $key registered")
         }
+    }
+
+    @Awake(PluginLifeCycle.LOAD, AwakePriority.LOW)
+    fun onLoad() {
+        AttributeSystem.savePackagedResource("mechanics.yml")
+        pluginScriptManager.init()
     }
 
     @Awake(PluginLifeCycle.ENABLE,AwakePriority.HIGH)
