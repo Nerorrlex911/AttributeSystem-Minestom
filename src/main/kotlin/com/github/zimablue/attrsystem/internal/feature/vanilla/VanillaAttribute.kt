@@ -26,7 +26,7 @@ class VanillaAttribute(
     private val attrKey = Key.key("as-${attr.name()}")
     private val cacheTag = Tag.Double("attrsystem.previous.${attr.name()}")
     fun getValue(entity: LivingEntity): Double {
-        val attrValue = PouPlaceholder.placeholderManager.replace(entity, value).simpleCalc().cdouble
+        val attrValue = PouPlaceholder.placeholderManager.replace(entity, value,"0").simpleCalc().cdouble
         return attrValue
     }
 

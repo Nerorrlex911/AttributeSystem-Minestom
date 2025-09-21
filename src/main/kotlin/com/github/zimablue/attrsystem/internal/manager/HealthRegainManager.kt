@@ -21,7 +21,7 @@ object HealthRegainManager {
         get() = ASConfig.options.getString("health-regain.value") ?: "1"
 
     fun getValue(entity: LivingEntity): Double {
-        return PouPlaceholder.placeholderManager.replace(entity, value).simpleCalc().cdouble
+        return PouPlaceholder.placeholderManager.replace(entity, value,"0").simpleCalc().cdouble
     }
 
     fun regain(entity: LivingEntity) {

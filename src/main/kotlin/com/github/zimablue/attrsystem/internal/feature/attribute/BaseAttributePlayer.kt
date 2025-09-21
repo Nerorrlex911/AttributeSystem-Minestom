@@ -5,7 +5,9 @@ import com.github.zimablue.attrsystem.api.AttrAPI.read
 import com.github.zimablue.attrsystem.api.compiled.CompiledAttrDataCompound
 import com.github.zimablue.attrsystem.api.compiled.sub.ComplexCompiledData
 import com.github.zimablue.attrsystem.internal.manager.ASConfig
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
+import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import taboolib.common.util.asList
 import taboolib.module.configuration.util.asMap
@@ -24,12 +26,12 @@ object BaseAttributePlayer {
     var baseData: ComplexCompiledData = ComplexCompiledData()
 
 
-    @Awake(PluginLifeCycle.ENABLE)
+    @Awake(PluginLifeCycle.ENABLE,AwakePriority.HIGHEST)
     fun onEnable() {
         onReload()
     }
 
-    @Awake(PluginLifeCycle.RELOAD)
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.HIGHEST)
     fun onReload() {
         val base = when (type) {
             "nbt" -> {

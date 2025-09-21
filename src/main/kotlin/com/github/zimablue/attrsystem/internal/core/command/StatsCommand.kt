@@ -6,9 +6,11 @@ import com.github.zimablue.attrsystem.internal.core.schedule.TaskScheduler
 import com.github.zimablue.attrsystem.internal.manager.ASConfig
 import com.github.zimablue.attrsystem.utils.getName
 import com.github.zimablue.attrsystem.utils.sendLang
+import com.github.zimablue.attrsystem.utils.toMiniMessage
 import com.github.zimablue.attrsystem.utils.toPlain
 import com.github.zimablue.devoutserver.util.colored
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.minestom.server.command.CommandSender
 import net.minestom.server.command.builder.Command
 import net.minestom.server.command.builder.arguments.ArgumentType
@@ -127,15 +129,16 @@ object StatsCommand {
             ?: AttributeDataCompound(),
         item: Boolean = false,
     ) {
+        val legacy = LegacyComponentSerializer.legacySection()
         val title = ASConfig.statsTitle.replace("{name}", name).replace("{player}", name).colored()
         sender.sendMessage(" ")
-        sender.sendMessage(title)
+        sender.sendMessage(legacy.deserialize(title))
         sender.sendMessage(" ")
         attributeStatusToJson(data, entity, item).forEach {
             sender.sendMessage(it)
         }
         sender.sendMessage(" ")
-        sender.sendMessage(ASConfig.statsEnd)
+        sender.sendMessage(legacy.deserialize(ASConfig.statsEnd))
     }
 
     private fun LivingEntity.getDisplayName() : String {

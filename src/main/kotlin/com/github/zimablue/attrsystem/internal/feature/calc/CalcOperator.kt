@@ -15,7 +15,7 @@ enum class CalcOperator(
     RANDOM('~', 2, { a, b ->
         val min = minOf(a, b)
         val max = maxOf(a, b)
-        kotlin.random.Random.nextDouble(min, max)
+        if(min==max) min else kotlin.random.Random.nextDouble(min, max)
     }),
     POWER('^', 3, { a, b -> b.pow(a) }),
     LEFT_BRACKET('(', 3, { _, _ -> 0.0 }),

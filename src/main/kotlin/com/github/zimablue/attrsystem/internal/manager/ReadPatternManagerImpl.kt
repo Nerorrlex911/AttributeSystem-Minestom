@@ -12,11 +12,11 @@ import taboolib.module.configuration.Type
 import java.io.File
 
 object ReadPatternManagerImpl: ReadPatternManager() {
-    @Awake(PluginLifeCycle.ENABLE,AwakePriority.NORMAL)
+    @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOW)
     fun onEnable() {
         onReload()
     }
-    @Awake(PluginLifeCycle.RELOAD,AwakePriority.NORMAL)
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOW)
     fun onReload() {
         this.entries.filter { it.value.release }.forEach { (key, _) ->
             this.remove(key)?.also {
@@ -35,7 +35,7 @@ object ReadPatternManagerImpl: ReadPatternManager() {
                 AttributeSystem.logger.debug(
                     "Registering read group: {} with operations: {}",
                     group.key.lowercase(),
-                    group.operations().map { operation -> operation.key }
+                    group.operations().map { operation -> operation.key },
                 )
                 group.release = true
                 group.register()

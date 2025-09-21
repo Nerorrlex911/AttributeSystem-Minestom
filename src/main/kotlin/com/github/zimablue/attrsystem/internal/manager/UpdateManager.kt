@@ -17,7 +17,10 @@ import net.minestom.server.event.entity.EntityDespawnEvent
 import net.minestom.server.event.entity.EntitySpawnEvent
 import net.minestom.server.event.entity.EntityTickEvent
 import net.minestom.server.event.inventory.InventoryItemChangeEvent
-import net.minestom.server.event.player.*
+import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
+import net.minestom.server.event.player.PlayerDisconnectEvent
+import net.minestom.server.event.player.PlayerRespawnEvent
+import net.minestom.server.event.player.PlayerSpawnEvent
 import net.minestom.server.inventory.PlayerInventory
 import taboolib.common5.Baffle
 import taboolib.common5.clong

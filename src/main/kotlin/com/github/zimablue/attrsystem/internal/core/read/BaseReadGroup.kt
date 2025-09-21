@@ -10,6 +10,7 @@ import com.github.zimablue.attrsystem.internal.core.read.str.StringReader
 import com.github.zimablue.attrsystem.internal.manager.ASConfig
 import com.github.zimablue.attrsystem.utils.format
 import com.github.zimablue.attrsystem.utils.replacement
+import com.github.zimablue.attrsystem.utils.simpleCalc
 import com.github.zimablue.attrsystem.utils.toStringWithNext
 import com.github.zimablue.devoutserver.util.map.LowerMap
 import com.github.zimablue.pouplaceholder.PouPlaceholder
@@ -213,7 +214,17 @@ abstract class BaseReadGroup<A : Any>(override val key: String) : ReadPattern<A>
             val replaced = status[matcherKey] ?: 0.0
             matcher.appendReplacement(stringBuffer, replaced.toString())
         }
-        return matcher.appendTail(stringBuffer).toString().run { entity?.let { PouPlaceholder.placeholderManager.replace(it,this) } ?: this }
+        val result = matcher
+            .appendTail(stringBuffer)
+            .toString()
+            .run {
+                entity?.let {
+                    PouPlaceholder.placeholderManager.replace(it,this,this)
+                } ?: this
+            }
+            .simpleCalc()
+            .toString()
+        return result
     }
 
 

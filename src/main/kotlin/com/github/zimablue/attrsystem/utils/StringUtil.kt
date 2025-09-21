@@ -56,15 +56,16 @@ fun String.toMiniMessage(): Component {
 }
 
 fun String.placeholder(entity: LivingEntity): String {
-    return PouPlaceholder.placeholderManager.replace(entity,this)
+    return PouPlaceholder.placeholderManager.replace(entity,this,"0")
 }
 
 fun String.simpleCalc() : Any {
-    return if (startsWith("js::")) {
-        ScriptManager.jsCalc(this)
+    val result = if (startsWith("js::")) {
+        ScriptManager.jsCalc(this.substring(4))
     } else if(startsWith("EvalEx::")) {
-        EvalEx.eval(this)
+        EvalEx.eval(this.substring(8))
     } else {
         FormulaParser.calculate(this)
     }
+    return result
 }

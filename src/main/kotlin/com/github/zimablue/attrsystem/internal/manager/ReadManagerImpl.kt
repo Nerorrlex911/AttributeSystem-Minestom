@@ -89,10 +89,8 @@ object ReadManagerImpl : ReadManager() {
                 .combine(attributeData)
         }
         val event = StringsReadEvent(entity, strings, compiledData)
-        var result: CompiledData? = null
-        AttributeSystem.asEventNode.callCancellable(event) {
-            result = event.compiledData
-        }
+        AttributeSystem.asEventNode.call(event)
+        val result = if (!event.isCancelled) event.compiledData else null
         return result
 
     }

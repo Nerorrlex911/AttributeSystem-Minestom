@@ -52,19 +52,18 @@ object EquipmentDataManagerImpl : EquipmentDataManager() {
         equipmentDataManager.register(uuid, data)
         val pre = EquipmentUpdateEvent.Pre(entity, data)
         EventDispatcher.call(pre)
-        //不允许取消的事件还检测isCancelled，这不是脱裤子放屁吗？
-//        if (pre.isCancelled) {
-//            return data
-//        }
+        if (pre.isCancelled) {
+            return data
+        }
         data = pre.data
 
         entity.loadEquipments(data)
 
         val postEvent = EquipmentUpdateEvent.Post(entity, data)
         EventDispatcher.call(postEvent)
-//        if (postEvent.isCancelled) {
-//            return data
-//        }
+        if (postEvent.isCancelled) {
+            return data
+        }
         data = postEvent.data
         equipmentDataManager.register(uuid, data)
         return data

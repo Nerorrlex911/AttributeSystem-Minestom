@@ -10,6 +10,7 @@ import com.github.zimablue.attrsystem.utils.getAllFiles
 import com.github.zimablue.attrsystem.utils.read.StrTrie
 import com.github.zimablue.attrsystem.utils.safe
 import com.github.zimablue.devoutserver.plugin.Plugin
+import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import com.github.zimablue.devoutserver.util.map.BaseMap
@@ -46,6 +47,7 @@ object AttributeManagerImpl: AttributeManager() {
         }
     }
 
+    @Awake(PluginLifeCycle.ENABLE,AwakePriority.NORMAL)
     fun onEnable() {
         addSubPlugin(AttributeSystem)
         onReload()
@@ -54,8 +56,7 @@ object AttributeManagerImpl: AttributeManager() {
     override fun reloadFolder(folder: File) {
         dataFolders.add(folder)
         folderToKeys[folder]?.forEach(::unregister)
-        val listToFile = getAllFiles(File(AttributeSystem.dataDirectory.toFile(),"attributes"))
-            .associate { Configuration.loadFromFile(it, Type.YAML) to it }
+        val listToFile = getAllFiles(File(AttributeSystem.dataDirectory.toFile(),"attributes")).associateBy { Configuration.loadFromFile(it, Type.YAML) }
         val map = mutableMapOf<ConfigAttributeBuilder,File>()
         for ((list,file) in listToFile) {
             list.getKeys(false).forEach { key ->
@@ -82,10 +83,12 @@ object AttributeManagerImpl: AttributeManager() {
         onReload()
     }
 
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.NORMAL)
     fun onReload() {
         this.entries.filter { it.value.config }.forEach { this.remove(it.key); }
         attributes.removeIf { it.config }
         this.nameMap.entries.filter { it.value.config }.forEach { nameMap.remove(it.key) }
+        dataFolders.forEach { reloadFolder(it) }
     }
 
     override fun put(key: String, value: Attribute): Attribute? {

@@ -5,9 +5,11 @@ import com.github.zimablue.attrsystem.api.manager.*
 import com.github.zimablue.attrsystem.fight.api.manager.*
 import com.github.zimablue.attrsystem.fight.manager.*
 import com.github.zimablue.attrsystem.internal.core.command.ASCommand
+import com.github.zimablue.attrsystem.internal.feature.compat.placeholder.AttributePlaceHolder
 import com.github.zimablue.attrsystem.internal.manager.*
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.plugin.Plugin
+import com.github.zimablue.pouplaceholder.PouPlaceholder
 import net.minestom.server.MinecraftServer
 import net.minestom.server.event.Event
 import net.minestom.server.event.EventNode
@@ -43,6 +45,7 @@ object AttributeSystem : Plugin() {
         super.onEnable()
         logger.info("AttributeSystem enabled")
         MinecraftServer.getCommandManager().register(ASCommand)
+        PouPlaceholder.placeholderManager.register(AttributePlaceHolder)
 
     }
 

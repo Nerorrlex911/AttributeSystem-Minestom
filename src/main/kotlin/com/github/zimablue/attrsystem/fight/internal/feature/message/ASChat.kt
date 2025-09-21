@@ -20,7 +20,7 @@ class ASChat(val text: StringBuilder, override val fightData: FightData) : Messa
     }
 
     override fun sendTo(vararg players: Player) {
-        players.forEach { player -> player.sendMessage(PouPlaceholder.placeholderManager.replace(player,text.toString()).colored()) }
+        players.forEach { player -> player.sendMessage(PouPlaceholder.placeholderManager.replace(player,text.toString(),"0").colored()) }
     }
 
 }

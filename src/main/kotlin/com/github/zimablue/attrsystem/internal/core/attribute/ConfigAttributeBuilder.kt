@@ -46,8 +46,8 @@ class ConfigAttributeBuilder(
                     AttributeSystem.readPatternManager[readPatternKey]
                 if (readPattern == null) {
                     AttributeSystem.logger.info(
-                        "&d[&9AttributeSystem&d] &cThe ReadPattern &b{} &cof Attribute &6{} &cdoes not exist!",
-                        attKey, readPatternKey)
+                        "[AttributeSystem] The ReadPattern {} of Attribute {} does not exist!",
+                        readPatternKey, attKey)
                     return null
                 }
                 val map = section.getConfigurationSection("mapping")?.toMap()?.filterValues { it != null }

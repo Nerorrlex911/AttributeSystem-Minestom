@@ -75,7 +75,7 @@ object ASConfig {
     val defaultRegainHolo: Boolean
         get() = message.getBoolean("options.default.health-regain-holo")
 
-    @Awake(PluginLifeCycle.LOAD,AwakePriority.LOW)
+    @Awake(PluginLifeCycle.LOAD,AwakePriority.LOWEST)
     fun onLoad() {
         AttributeSystem.savePackagedResource("config.yml")
         AttributeSystem.savePackagedResource("lang.yml")
@@ -116,7 +116,7 @@ object ASConfig {
             "魔法.yml"
         )
     }
-    @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOW)
+    @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOWEST)
     fun onEnable() {
         onReload()
         val parentNode = config.getString("parent-node","global")
@@ -127,7 +127,7 @@ object ASConfig {
             node?.addChild(AttributeSystem.asEventNode)
         }
     }
-    @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOW)
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOWEST)
     fun onReload() {
         config = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("config.yml").toFile(),Type.YAML)
         lang = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("lang.yml").toFile(),Type.YAML)

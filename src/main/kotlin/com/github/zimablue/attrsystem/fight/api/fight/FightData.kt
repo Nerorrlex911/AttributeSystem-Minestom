@@ -210,7 +210,7 @@ class FightData(attacker: LivingEntity?, defender: LivingEntity?) : ConcurrentHa
         val value = if (placeholder.startsWith("as_")) placeholder.attValue(
             entity,
             data
-        ) else PouPlaceholder.placeholderManager.replace(entity, "%${placeholder}%")
+        ) else PouPlaceholder.placeholderManager.replace(entity, "%${placeholder}%","0")
         if (log)
             debug(
                     "       &3{${str.uncolored()}} &7-> &9${
