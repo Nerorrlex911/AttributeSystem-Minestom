@@ -2,7 +2,6 @@ package com.github.zimablue.attrsystem.internal.feature.personal
 
 import com.github.zimablue.attrsystem.AttributeSystem.attributeDataManager
 import com.github.zimablue.attrsystem.api.attribute.compound.AttributeDataCompound
-import com.github.zimablue.attrsystem.fight.manager.PersonalManagerImpl
 import com.github.zimablue.attrsystem.internal.feature.database.ASContainer
 import com.github.zimablue.devoutserver.util.map.component.Keyable
 import com.google.gson.GsonBuilder
@@ -44,7 +43,6 @@ class InitialAttrData(override val key: UUID, val compound: AttributeDataCompoun
 
         @JvmStatic
         internal fun pullAttrData(uuid: UUID): InitialAttrData? {
-            if(!PersonalManagerImpl.enable) return null
             val data = ASContainer[uuid, "initial-attr-data"] ?: return null
             if (data == "null") return null
             return deserialize(uuid, data)

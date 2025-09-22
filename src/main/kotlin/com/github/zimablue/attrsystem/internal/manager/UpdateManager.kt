@@ -4,6 +4,7 @@ import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.AttributeSystem.attributeDataManager
 import com.github.zimablue.attrsystem.AttributeSystem.attributeSystemAPI
 import com.github.zimablue.attrsystem.internal.core.schedule.TaskScheduler
+import com.github.zimablue.attrsystem.internal.feature.personal.InitialAttrData.Companion.pushAttrData
 import com.github.zimablue.attrsystem.internal.manager.AttributeSystemAPIImpl.remove
 import com.github.zimablue.attrsystem.utils.isAlive
 import com.github.zimablue.attrsystem.utils.validEntity
@@ -70,15 +71,16 @@ object UpdateManager {
                 if(event.entity !is Player) attributeSystemAPI.remove(event.entity.uuid)
             }
             addListener(AsyncPlayerConfigurationEvent::class.java) { event ->
-                event.player.updateNextTick()
+                attributeSystemAPI.update(event.player)
             }
             addListener(PlayerRespawnEvent::class.java) {event ->
-                event.player.updateNextTick()
+                attributeSystemAPI.update(event.player)
             }
             addListener(PlayerSpawnEvent::class.java) { event ->
-                event.player.updateNextTick()
+                attributeSystemAPI.update(event.player)
             }
             addListener(PlayerDisconnectEvent::class.java) { event ->
+                pushAttrData(event.player)
                 attributeSystemAPI.remove(event.player.uuid)
                 baffle.reset(event.player.uuid.toString())
             }
@@ -87,7 +89,7 @@ object UpdateManager {
                 val inventory = event.inventory
                 if(inventory is PlayerInventory) {
                     for (player in inventory.viewers) {
-                        player.updateNextTick()
+                        attributeSystemAPI.update(player)
                     }
                 }
             }

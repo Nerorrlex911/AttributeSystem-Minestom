@@ -29,6 +29,8 @@ object AttributeSystem : Plugin() {
     val attributeSystemAPI : AttributeSystemAPI = AttributeSystemAPIImpl
     val equipmentDataManager: EquipmentDataManager = EquipmentDataManagerImpl
 
+    val potionManager: PotionManager = PotionManagerImpl
+
     //fight system managers
     val mechanicManager: MechanicManager = MechanicManagerImpl
     val messageBuilderManager: MessageBuilderManager = MessageBuilderManagerImpl

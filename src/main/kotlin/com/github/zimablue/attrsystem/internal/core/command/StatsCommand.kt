@@ -17,8 +17,13 @@ import net.minestom.server.command.builder.arguments.ArgumentType
 import net.minestom.server.command.builder.suggestion.SuggestionEntry
 import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
+import net.minestom.server.utils.entity.EntityFinder
 
 object StatsCommand {
+    
+    fun EntityFinder.findFirstLiving(sender: CommandSender): LivingEntity? {
+        return this.find(sender).firstOrNull { it is LivingEntity } as? LivingEntity
+    }
 
     val stats = object : Command("stats") {
         val argEntity = ArgumentType.Entity("target").singleEntity(true)
@@ -31,7 +36,7 @@ object StatsCommand {
                 sendStatText(sender,sender)
             }
             addSyntax({ sender, context ->
-                val entity = context.get(argEntity).find(sender).firstOrNull { it is LivingEntity }?:return@addSyntax
+                val entity = context.get(argEntity).findFirstLiving(sender)?:return@addSyntax
                 sendStatText(sender,entity as? LivingEntity?:return@addSyntax)
             },argEntity)
         }
@@ -40,14 +45,14 @@ object StatsCommand {
     val itemStats = object : Command("itemstats") {
         val argEntity = ArgumentType.Entity("target").singleEntity(true)
         val key = ArgumentType.String("key").setSuggestionCallback { sender, context, suggestion ->
-            val entity = context.get(argEntity).find(sender).firstOrNull { it is LivingEntity }?: run {
+            val entity = context.get(argEntity).findFirstLiving(sender)?: run {
                 sender.sendLang("command-valid-entity")
                 return@setSuggestionCallback
             }
             AttributeSystem.equipmentDataManager[entity.uuid]?.map { suggestion.addEntry(SuggestionEntry(it.key)) }
         }
         val slot = ArgumentType.String("slot").setSuggestionCallback { sender, context, suggestion ->
-            val entity = context.get(argEntity).find(sender).firstOrNull { it is LivingEntity }?: run {
+            val entity = context.get(argEntity).findFirstLiving(sender)?: run {
                 sender.sendLang("command-valid-entity")
                 return@setSuggestionCallback
             }
@@ -56,7 +61,7 @@ object StatsCommand {
         }
         init {
             addSyntax({ sender, context ->
-                val entity = context.get(argEntity).find(sender).firstOrNull { it is LivingEntity }?: run {
+                val entity = context.get(argEntity).findFirstLiving(sender)?: run {
                     sender.sendLang("command-valid-entity")
                     return@addSyntax
                 }

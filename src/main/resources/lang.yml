@@ -15,6 +15,8 @@ command-info:
   - '    &d- &estats (玩家名) &5—— &a显示属性统计.'
   - '    &d- &eitemstats [玩家名] [key] [slot] &5—— &a显示物品的属性统计&e.'
   - '    &d- &eentitystats &5—— &a显示你所看向的实体的属性统计'
+  - '    &d- &epotion add [玩家/实体] [属性源] [持续时间/tick] [属性字符串/属性NBT] &5—— &a给予玩家指定属性药水效果.'
+  - '    &d- &epotion remove [玩家/实体] [属性源] &5—— &a清除玩家指定源的属性药水效果.'
   - '&f&m─&6&m──────────────────────────────────&6&f&m─'
 command-valid-player: '&d[&9属性系统&d] &c玩家 &6{0} &c不存在!'
 command-valid-item: '&d[&9属性系统&d] &c物品不存在!'
