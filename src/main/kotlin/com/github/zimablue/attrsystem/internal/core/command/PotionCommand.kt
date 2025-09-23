@@ -3,7 +3,6 @@ package com.github.zimablue.attrsystem.internal.core.command
 import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.internal.core.command.StatsCommand.findFirstLiving
 import com.github.zimablue.attrsystem.utils.sendLang
-import com.github.zimablue.attrsystem.utils.toMap
 import net.minestom.server.command.builder.Command
 import net.minestom.server.command.builder.arguments.ArgumentType
 
@@ -24,7 +23,7 @@ object PotionCommand {
             addSyntax({ sender, context ->
                 val entity = context.get(argEntity).findFirstLiving(sender)?:return@addSyntax
                 val source = context.get(source)
-                val nbt = toMap(context.get(nbt))
+                val nbt = context.get(nbt)
                 val duration = context.get(duration)
                 val persistent = context.get(persistent)
                 val removeOnDeath = context.get(removeOnDeath)
