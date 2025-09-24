@@ -27,6 +27,16 @@ This project is on heavy development and not ready for production.
 其中事件驱动与原版基本一致，而定时更新任务不再由插件自己的线程池执行，而是提交到实体独有的调度器中，以保证线程安全并提高性能
 ## 原版属性
 AttributeSystem-Minestom只对原版属性进行简单映射，本质上只是一个定时更新的AttributeModifier，不会完全接管原版属性
+## 生命值
+Minestom出于性能考虑不提供在监听数据包发送时修改包的功能，因此无法像Bukkit那样通过修改数据包来实现血量压缩等功能，这对RPG服务器造成很大的困扰。
+
+因此AttributeSystem-Minestom选择不依赖原版生命值逻辑，依托Tag系统维护一套自己的生命值系统，并完全接管伤害处理
+
+生命值系统维护在HealthManager中，读取"CustomMaxHealth"作为最大生命值属性
+
+生命值系统会在所有其他监听器执行完毕之后监听EntityDamageEvent事件，调整真实生命值，处理血量缩放，然后取消掉伤害事件
+
+然而实际上用户可能根本不会采用LivingEntity#damage方法来对实体造成伤害，用户只需要在自己的战斗系统中合适的位置调用FightAPI#runFight即可
 ## 战斗系统FightSystem
 作者得出结论，AttributeSystem与FightSystem在几乎所有的应用场景中都是一起使用的，
 
@@ -46,7 +56,7 @@ Minestom平台目前没有类似PlaceholderAPI的库，本项目的占位符依�
 ## 原版属性
 本项目暂未实现原版属性兼容
 
-## 更新计划
+# 更新计划
 1. 合并FightSystem 
    1. 基本功能 [x]
    2. 将战斗机制组的Asahi改为纯JavaScript [x]

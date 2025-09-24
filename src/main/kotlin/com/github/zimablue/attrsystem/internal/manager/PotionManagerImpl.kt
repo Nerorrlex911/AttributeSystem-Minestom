@@ -14,7 +14,9 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
+import net.minestom.server.event.Event
 import net.minestom.server.event.EventDispatcher
+import net.minestom.server.event.EventNode
 import net.minestom.server.event.entity.EntityDeathEvent
 import net.minestom.server.event.entity.EntityDespawnEvent
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
@@ -23,6 +25,8 @@ import net.minestom.server.utils.time.TimeUnit
 import java.time.Duration
 
 object PotionManagerImpl : PotionManager(){
+
+    private val potionEventNode: EventNode<Event> = EventNode.all("PotionManager").setPriority(4)
 
     override fun addPotion(
         entity: LivingEntity,
@@ -71,10 +75,11 @@ object PotionManagerImpl : PotionManager(){
 
     @Awake(PluginLifeCycle.ENABLE,AwakePriority.HIGH)
     fun onEnable() {
-        AttributeSystem.asEventNode.addListener(EntityDespawnEvent::class.java) { event ->
-            val entity = event.entity
-            remove(entity.uuid)
-        }
+        AttributeSystem.asEventNode.addChild(potionEventNode)
+            potionEventNode.addListener(EntityDespawnEvent::class.java) { event ->
+                val entity = event.entity
+                remove(entity.uuid)
+            }
             .addListener(EntityDeathEvent::class.java) { event ->
                 val entity = event.entity
                 if(entity !is Player) {

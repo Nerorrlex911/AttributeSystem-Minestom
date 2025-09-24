@@ -11,6 +11,8 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.entity.EquipmentSlot
 import net.minestom.server.entity.Player
+import net.minestom.server.event.Event
+import net.minestom.server.event.EventNode
 import net.minestom.server.item.Material
 
 object DisableAttackMaterialRealizer  {
@@ -18,12 +20,15 @@ object DisableAttackMaterialRealizer  {
     val values: List<String>
         get() = ASConfig.options.getStringList("values")
 
+    private val eventNode: EventNode<Event> = EventNode.all("AttributeSystem-DisableAttackMaterial").setPriority(0)
+
     private val disableDamageTypes = HashSet<Material>()
 
     @Awake(PluginLifeCycle.ENABLE)
     fun onEnable() {
         onReload()
-        AttributeSystem.asEventNode.addListener(FightEvent.Pre::class.java) { event ->
+        AttributeSystem.asEventNode.addChild(eventNode)
+        eventNode.addListener(FightEvent.Pre::class.java) { event ->
             disableMaterialAttack(event)
         }
     }

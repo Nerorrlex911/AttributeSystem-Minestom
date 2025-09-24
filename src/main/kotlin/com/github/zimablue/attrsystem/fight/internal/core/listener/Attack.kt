@@ -19,27 +19,30 @@ import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
 import net.minestom.server.entity.damage.DamageType
 import net.minestom.server.entity.damage.EntityProjectileDamage
+import net.minestom.server.event.Event
+import net.minestom.server.event.EventNode
 import net.minestom.server.event.entity.EntityDamageEvent
 import taboolib.common5.cfloat
 
 object Attack {
-    val isFightEnable
+    private val isFightEnable
         get() = config.getBoolean("options.fight.enable", true)
-    val eveFightCal
+    private val eveFightCal
         get() = config.getBoolean("options.fight.eve-fight-cal",false)
     val defaultFightGroup: String
         get() = config.getString("options.fight.default","attack-damage")!!
+    private val eventNode: EventNode<Event> = EventNode.all("AttributeSystem-Attack").setPriority(0)
 
     @Awake(PluginLifeCycle.ENABLE)
     fun onEnable() {
-        AttributeSystem.asEventNode
-            .addListener(EntityDamageEvent::class.java) { event ->
-                onAttack(event)
-                onDamage(event)
-            }
+        AttributeSystem.asEventNode.addChild(eventNode)
+        eventNode.addListener(EntityDamageEvent::class.java) { event ->
+            onAttack(event)
+            onDamage(event)
+        }
     }
 
-    fun onAttack(event: EntityDamageEvent) {
+    private fun onAttack(event: EntityDamageEvent) {
         if (!isFightEnable) return
         //如果攻击原因不是 ENTITY_ATTACK 和 PROJECTILE 则跳过计算
         val isAttack = event.damage.type == DamageType.MOB_ATTACK || event.damage.type == DamageType.PLAYER_ATTACK
@@ -106,11 +109,11 @@ object Attack {
 
     }
 
-    fun onDamage(event: EntityDamageEvent) {
+    private fun onDamage(event: EntityDamageEvent) {
         val attacker: LivingEntity? = event.damage.attacker as? LivingEntity
         val defender = event.entity ?: return
         if (!defender.isAlive()) return
-        val cause = event.damage.type
+        val cause = event.damage.type.name().lowercase()
         val key = "damage-cause-$cause"
         if (!AttributeSystem.fightGroupManager.containsKey(key)) return
         val data = FightData(attacker, defender) {

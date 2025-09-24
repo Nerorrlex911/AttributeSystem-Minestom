@@ -1,5 +1,8 @@
 MaxHealth:
   names:
+    - "原版生命值"
+CustomMaxHealth:
+  names:
     - "生命值"
     - "生命力"
     - "最大生命值"

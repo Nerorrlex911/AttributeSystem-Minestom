@@ -7,6 +7,7 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.MinecraftServer
 import net.minestom.server.entity.Player
 import net.minestom.server.entity.attribute.Attribute
+import net.minestom.server.event.entity.EntityDamageEvent
 import net.minestom.server.event.player.PlayerPacketOutEvent
 import net.minestom.server.network.packet.server.play.EntityAttributesPacket
 import net.minestom.server.network.packet.server.play.UpdateHealthPacket
@@ -28,9 +29,7 @@ object HealthScaleManager {
         return round(value * percent).toFloat()
     }
 
-    @Awake(PluginLifeCycle.ENABLE)
     fun onEnable() {
-
     }
     private fun findPlayerByID(id: Int): Player? {
         // 理论上玩家数量应当远小于实体数量，所以遍历玩家以匹配

@@ -13,6 +13,8 @@ import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.entity.LivingEntity
 import net.minestom.server.entity.Player
+import net.minestom.server.event.Event
+import net.minestom.server.event.EventNode
 import net.minestom.server.event.entity.EntityDeathEvent
 import net.minestom.server.event.entity.EntityDespawnEvent
 import net.minestom.server.event.entity.EntitySpawnEvent
@@ -29,10 +31,11 @@ import java.util.concurrent.TimeUnit
 
 object UpdateManager {
 
-    val updatePeriod: Int
+    private val updatePeriod: Int
         get() = ASConfig.config.getInt("update.period",10)
-    val updateBaffle: Long
+    private val updateBaffle: Long
         get() = ASConfig.config.getLong("update.baffle",20)
+    private val eventNode: EventNode<Event> = EventNode.all("AttributeSystem-UpdateManager").setPriority(0)
 
     private var baffle = Baffle.of(20,TimeUnit.MILLISECONDS)
 
@@ -53,7 +56,8 @@ object UpdateManager {
                 }
             }
         }
-        with(AttributeSystem.asEventNode) {
+        AttributeSystem.asEventNode.addChild(eventNode)
+        with(eventNode) {
             addListener(EntityTickEvent::class.java) { event ->
                 val entity = event.entity
                 if(!entity.isAlive()) return@addListener
