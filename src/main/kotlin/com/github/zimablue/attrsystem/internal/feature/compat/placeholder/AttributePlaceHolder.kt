@@ -9,6 +9,7 @@ import com.github.zimablue.attrsystem.api.attribute.Attribute
 import com.github.zimablue.attrsystem.api.attribute.compound.AttributeDataCompound
 import com.github.zimablue.attrsystem.api.compiled.sub.ComplexCompiledData
 import com.github.zimablue.pouplaceholder.api.placeholder.PouPlaceHolder
+import net.minestom.server.MinecraftServer
 import net.minestom.server.entity.LivingEntity
 
 object AttributePlaceHolder : PouPlaceHolder("as", AttributeSystem.name,AttributeSystem.origin.authors.toString(),AttributeSystem.origin.version) {
@@ -40,6 +41,11 @@ object AttributePlaceHolder : PouPlaceHolder("as", AttributeSystem.name,Attribut
         val uuid = entity.uuid
         val strings = if (lower.contains("_")) lower.split("_").toMutableList() else mutableListOf(lower)
         when (strings[0]) {
+            "health" -> {
+                return AttributeSystem.healthManager.getHealth(
+                    MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(uuid)?:return "0.0"
+                ).toString()
+            }
             "att" -> {
                 val attribute = attributeManager[strings[1]]
                 attribute?.also {

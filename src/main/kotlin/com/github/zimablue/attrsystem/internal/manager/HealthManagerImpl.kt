@@ -4,6 +4,7 @@ import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.api.AttrAPI
 import com.github.zimablue.attrsystem.api.AttrAPI.getAttrData
 import com.github.zimablue.attrsystem.api.attribute.Attribute
+import com.github.zimablue.attrsystem.api.event.AttributeUpdateEvent
 import com.github.zimablue.attrsystem.api.manager.HealthManager
 import com.github.zimablue.attrsystem.internal.feature.database.ASContainer
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
@@ -14,8 +15,9 @@ import net.minestom.server.event.Event
 import net.minestom.server.event.EventFilter
 import net.minestom.server.event.EventNode
 import net.minestom.server.event.entity.EntityDamageEvent
-import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
 import net.minestom.server.event.player.PlayerDisconnectEvent
+import net.minestom.server.event.player.PlayerRespawnEvent
+import net.minestom.server.event.player.PlayerSpawnEvent
 import net.minestom.server.event.trait.EntityEvent
 import net.minestom.server.tag.Tag
 import taboolib.common5.cdouble
@@ -48,21 +50,25 @@ object HealthManagerImpl : HealthManager() {
             event.isCancelled = true
             debug("Player ${player.username} took ${event.damage} damage, health set to $newHealth/${getMaxHealth(player)}")
         }
-        AttributeSystem.asEventNode.addChild(damageEventNode)
-        dataEventNode.addListener(AsyncPlayerConfigurationEvent::class.java) { event ->
-            val player = event.player
-            val healthData = ASContainer[player.uuid, "as_health"]
-            if(healthData==null) {
-                setHealth(player, getMaxHealth(player))
-            } else {
-                setHealth(player, healthData.cdouble)
+        AttributeSystem.asEventNode.addChild(dataEventNode)
+        dataEventNode
+            .addListener(PlayerSpawnEvent::class.java) { event ->
+                scale(event.player)
             }
-        }
-        dataEventNode.addListener(PlayerDisconnectEvent::class.java) { event ->
-            val player = event.player
-            val healthData = getHealth(player)
-            ASContainer[player.uuid,"as_health"] = healthData.toString()
-        }
+            .addListener(PlayerDisconnectEvent::class.java) { event ->
+                val player = event.player
+                val healthData = getHealth(player)
+                ASContainer[player.uuid,"as_health"] = healthData.toString()
+            }
+            .addListener(PlayerRespawnEvent::class.java) { event ->
+                val player = event.player
+                setHealth(player, getMaxHealth(player))
+            }
+            .addListener(AttributeUpdateEvent.Post::class.java) { event ->
+                val player = event.entity as? Player?:return@addListener
+                val maxHealth = getMaxHealth(player)
+                scale(player,maxHealth=maxHealth)
+            }
     }
 
     override fun getMaxHealth(player: Player): Double {
@@ -70,20 +76,34 @@ object HealthManagerImpl : HealthManager() {
     }
 
     override fun getHealth(player: Player): Double {
-        return player.getTag(HEALTH_TAG)?:0.0
+        val health = player.getTag(HEALTH_TAG)
+        if(health==null) {
+            val newHealth = ASContainer[player.uuid, "as_health"]?.cdouble ?: getMaxHealth(player)
+            player.setTag(HEALTH_TAG, newHealth)
+            scale(player, newHealth)
+            return newHealth
+        }
+        return health
     }
 
     override fun setHealth(player: Player, health: Double) {
         val currentHealth = getHealth(player)
         if (currentHealth == health) return
+        // 可以为负值，这将杀死玩家
+        if (health<=0) {
+            player.setTag(HEALTH_TAG, 0.0)
+            player.health = 0f
+            return
+        }
         player.setTag(HEALTH_TAG, health)
+        debug("setHealth $currentHealth, health set to $health")
+        scale(player,health)
+    }
+    private fun scale(player: Player, health: Double=getHealth(player), maxHealth: Double=getMaxHealth(player)) {
         if(enable) {
-            val maxHealth = getMaxHealth(player)
-            // scaledHealth 可以为负值，这将杀死玩家
-            val scaledHealth = (min(health,maxHealth) / maxHealth) * value
-            player.health = scaledHealth.toFloat()
-        } else {
-            player.health = health.toFloat()
+            // scaledHealth
+            val scaledHealth = ((min(health,maxHealth) / maxHealth) * value).toFloat()
+            if(scaledHealth!=player.health) player.health = scaledHealth
         }
     }
 }
