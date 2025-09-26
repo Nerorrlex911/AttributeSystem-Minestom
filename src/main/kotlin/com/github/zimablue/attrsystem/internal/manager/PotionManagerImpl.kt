@@ -9,6 +9,7 @@ import com.github.zimablue.attrsystem.api.manager.PotionManager
 import com.github.zimablue.attrsystem.api.potion.PotionData
 import com.github.zimablue.attrsystem.api.potion.PotionDataCompound
 import com.github.zimablue.attrsystem.internal.feature.database.ASContainer
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
 import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
@@ -36,6 +37,7 @@ object PotionManagerImpl : PotionManager(){
         persistent: Boolean,
         removeOnDeath: Boolean,
     ) : Boolean{
+        debug("PotionData: $data")
         val potionData = PotionData(data, duration, persistent, removeOnDeath)
         return addPotion(entity,source,potionData)
     }
@@ -51,6 +53,7 @@ object PotionManagerImpl : PotionManager(){
             removePotion(entity,source)
         }
         AttributeSystem.readManager.readMap(newPotionData.data,entity)?.let {
+            debug("PotionData: ${it.serialize()}")
             entity.addCompiledData(source, it)
             val task = entity.scheduler()
                 .buildTask { entity.removeCompiledData(source) }

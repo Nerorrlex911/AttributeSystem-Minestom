@@ -1,2 +1,3 @@
-damage: "scripts/mechanics/basic.js::damage"
-crit: "scripts/mechanics/basic.js::crit"
+damage: "mechanics\\basic.js::damage"
+crit: "mechanics\\basic.js::crit"
+vampire: "mechanics\\basic.js::vampire"

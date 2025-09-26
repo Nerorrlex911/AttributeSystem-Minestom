@@ -10,6 +10,7 @@ import com.github.zimablue.attrsystem.internal.feature.calc.FormulaParser
 import com.github.zimablue.attrsystem.internal.feature.compat.placeholder.AttributePlaceHolder
 import com.github.zimablue.attrsystem.internal.feature.evalex.EvalEx
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
+import com.github.zimablue.attrsystem.internal.manager.ASConfig.debugLang
 import com.github.zimablue.attrsystem.internal.manager.ScriptManager
 import com.github.zimablue.attrsystem.utils.parse
 import com.github.zimablue.devoutserver.util.uncolored
@@ -113,7 +114,7 @@ class FightData(attacker: LivingEntity?, defender: LivingEntity?) : ConcurrentHa
     }
 
     fun calMessage() {
-        debug("fight-info-message")
+        debugLang("fight-info-message")
         damageTypes.forEach { (type, fightData) ->
             fightData["result"] = fightData.calResult()
             if (attacker is Player && calMessage)

@@ -30,6 +30,7 @@ object AttributeSystem : Plugin() {
     val equipmentDataManager: EquipmentDataManager = EquipmentDataManagerImpl
 
     val potionManager: PotionManager = PotionManagerImpl
+    val healthManager: HealthManager = HealthManagerImpl
 
     //fight system managers
     val mechanicManager: MechanicManager = MechanicManagerImpl
@@ -56,6 +57,46 @@ object AttributeSystem : Plugin() {
         //todo some assertions for testing
         debug {
             logger.info("AttributeSystem active")
+        }
+        debug{
+            logger.info("readMap1: ")
+            logger.info(readManager.readMap(mapOf(
+                "type" to "strings",
+                "attributes" to listOf("物理伤害: 100","生命值: 10")
+            ))?.serialize().toString())
+            logger.info("readMap2: ")
+            val configMap: Map<String, Any> = mapOf(
+                "type" to "nbt",
+                "attributes" to mapOf(
+                    "ababa" to mapOf(
+                        "PhysicalDamage" to mapOf(
+                            "value" to 100
+                        )
+                    )
+                ),
+                "conditions" to emptyList<Any>()
+//                "conditions" to listOf(
+//                    mapOf(
+//                        "conditions" to listOf(
+//                            mapOf(
+//                                "key" to "ground",
+//                                "status" to true
+//                            )
+//                        )
+//                    ),
+//                    mapOf(
+//                        "conditions" to listOf(
+//                            mapOf(
+//                                "key" to "attribute",
+//                                "name" to "生命值",
+//                                "value" to 10
+//                            )
+//                        ),
+//                        "paths" to listOf("ababa.PhysicalDamage.value")
+//                    )
+//                )
+            )
+            logger.info(readManager.readMap(configMap)?.serialize().toString())
         }
     }
 

@@ -3,7 +3,6 @@ package com.github.zimablue.attrsystem.fight.api.fight
 import com.github.zimablue.attrsystem.AttributeSystem
 import com.github.zimablue.attrsystem.fight.api.fight.message.Message
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
-import com.github.zimablue.devoutserver.util.colored
 import com.github.zimablue.devoutserver.util.map.BaseMap
 import com.github.zimablue.devoutserver.util.map.component.Registrable
 import net.minestom.server.entity.Player
@@ -78,7 +77,7 @@ class DamageType(override val key: String, val name: String, messages: Map<Strin
             section.getConfigurationSection("display.defend")?.toMap()?.forEach {
                 display["defend-${it.key}"] = it.value?:""
             }
-            return DamageType(key, name.colored(), display)
+            return DamageType(key, name, display)
         }
     }
 

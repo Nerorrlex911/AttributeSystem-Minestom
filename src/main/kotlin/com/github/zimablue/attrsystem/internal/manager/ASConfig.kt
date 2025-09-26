@@ -120,6 +120,8 @@ object ASConfig {
     fun onEnable() {
         onReload()
         val parentNode = config.getString("parent-node","global")
+        val nodePriority = config.getInt("node-priority",3)
+        AttributeSystem.asEventNode.setPriority(nodePriority)
         if(parentNode=="global") {
             MinecraftServer.getGlobalEventHandler().addChild(AttributeSystem.asEventNode)
         } else {

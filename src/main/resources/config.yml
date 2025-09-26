@@ -43,3 +43,4 @@ options:
     attack-fight:
       - as.class.b::class-a-attack
 parent-node: "global"
+node-priority: 3

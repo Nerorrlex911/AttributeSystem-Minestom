@@ -134,16 +134,15 @@ object StatsCommand {
             ?: AttributeDataCompound(),
         item: Boolean = false,
     ) {
-        val legacy = LegacyComponentSerializer.legacySection()
-        val title = ASConfig.statsTitle.replace("{name}", name).replace("{player}", name).colored()
+        val title = ASConfig.statsTitle.replace("{name}", name).replace("{player}", name)
         sender.sendMessage(" ")
-        sender.sendMessage(legacy.deserialize(title))
+        sender.sendMessage(title.colored())
         sender.sendMessage(" ")
         attributeStatusToJson(data, entity, item).forEach {
             sender.sendMessage(it)
         }
         sender.sendMessage(" ")
-        sender.sendMessage(legacy.deserialize(ASConfig.statsEnd))
+        sender.sendMessage(ASConfig.statsEnd.colored())
     }
 
     private fun LivingEntity.getDisplayName() : String {

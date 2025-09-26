@@ -5,17 +5,18 @@ import com.github.zimablue.attrsystem.fight.api.fight.DamageType
 import com.github.zimablue.attrsystem.fight.api.manager.DamageTypeManager
 import com.github.zimablue.attrsystem.utils.getAllFiles
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
+import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import taboolib.module.configuration.Configuration
 
 object DamageTypeManagerImpl : DamageTypeManager() {
 
-    @Awake(PluginLifeCycle.ENABLE)
+    @Awake(PluginLifeCycle.ENABLE,AwakePriority.LOW)
     fun onEnable() {
         onReload()
     }
 
-    @Awake(PluginLifeCycle.RELOAD)
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOW)
     fun onReload() {
         clear()
         getAllFiles(AttributeSystem.dataDirectory.resolve("damage_type").toFile()).forEach {

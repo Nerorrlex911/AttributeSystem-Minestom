@@ -30,7 +30,7 @@ class ASActionBar(
         players.forEach { player ->
             sendActionBar(
                 player,
-                PouPlaceholder.placeholderManager.replace(player,text.toString(),"0").colored(),
+                PouPlaceholder.placeholderManager.replace(player,text.toString(),"0"),
                 ASConfig.message.getLong("fight-message.action-bar.stay"),
             )
         }

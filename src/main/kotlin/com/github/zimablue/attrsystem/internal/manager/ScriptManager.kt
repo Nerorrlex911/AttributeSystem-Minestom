@@ -29,7 +29,7 @@ object ScriptManager {
             const AttributeSystem = Packages.com.github.zimablue.attrsystem.AttributeSystem;
             const AttrAPI = Packages.com.github.zimablue.attrsystem.api.AttrAPI;
             function operation(name) {
-                return AttributeSystem.operationManager[name];
+                return AttributeSystem.INSTANCE.operationManager[name];
             }
         """.trimIndent())
     }
@@ -96,7 +96,7 @@ object ScriptManager {
             val funcPath = mechanics.getString(key)!!
             object : Mechanic(key){
                 override fun exec(fightData: FightData, context: Map<String, Any>, damageType: DamageType): Any? {
-                    return pluginScriptManager.run(funcPath,null,arrayOf(fightData, context, damageType))
+                    return pluginScriptManager.run(funcPath,null, fightData, context, damageType)
                 }
             }.register()
             mechanicKeys.add(key)
