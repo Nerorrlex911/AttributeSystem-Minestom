@@ -42,7 +42,7 @@ class ASActionBar(
     }
 
     fun sendActionBar(player: Player, text: String, stay: Long) {
-        player.sendActionBar(text.toMiniMessage())
+        player.sendActionBar(text.colored())
         player.scheduler().buildTask { (player.sendActionBar(Component.text(""))) }
             .delay(stay,TimeUnit.SERVER_TICK)
             .schedule()

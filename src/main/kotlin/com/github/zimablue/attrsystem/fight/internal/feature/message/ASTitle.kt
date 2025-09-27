@@ -54,8 +54,8 @@ class ASTitle(
     }
     fun Player.sendTitle(title: String, subTitle: String, fadeIn: Int, stay: Int, fadeOut: Int) {
         showTitle(Title.title(
-            if(title.isEmpty()) Component.empty() else title.toMiniMessage(),
-            if(subTitle.isEmpty()) Component.empty() else subTitle.toMiniMessage(),
+            if(title.isEmpty()) Component.empty() else title.colored(),
+            if(subTitle.isEmpty()) Component.empty() else subTitle.colored(),
             fadeIn,
             stay,
             fadeOut

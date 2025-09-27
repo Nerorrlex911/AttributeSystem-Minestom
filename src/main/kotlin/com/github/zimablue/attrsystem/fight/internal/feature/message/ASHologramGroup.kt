@@ -5,6 +5,7 @@ import com.github.zimablue.attrsystem.fight.api.fight.message.Message
 import com.github.zimablue.attrsystem.fight.internal.feature.hologram.HologramBuilder
 import com.github.zimablue.attrsystem.internal.manager.ASConfig
 import com.github.zimablue.attrsystem.utils.toMiniMessage
+import com.github.zimablue.devoutserver.util.colored
 import net.minestom.server.coordinate.Pos
 import net.minestom.server.entity.Player
 import net.minestom.server.instance.Instance
@@ -39,7 +40,7 @@ class ASHologramGroup(
         val stay = map["stay"].toDouble().toLong()
         val time = map["time"].toDouble().toInt()
         HologramBuilder(instance,pos.add(beginPos))
-            .content(texts.map{it.toMiniMessage()})
+            .content(texts.map{it.colored()})
             .stay(stay)
             .animation(time, pos.add(endPos))
             .viewers(*players)
