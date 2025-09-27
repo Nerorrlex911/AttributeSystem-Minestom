@@ -1,10 +1,12 @@
 package com.github.zimablue.attrsystem.internal.core.schedule
 
 import com.github.zimablue.attrsystem.AttributeSystem
+import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
+import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import kotlinx.coroutines.*
 
 object TaskScheduler {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     fun schedule(
         name: String,
@@ -36,6 +38,7 @@ object TaskScheduler {
         }
     }
 
+    @Awake(PluginLifeCycle.DISABLE)
     fun stopAll() {
         scope.cancel()
     }

@@ -1,6 +1,8 @@
 package com.github.zimablue.attrsystem.internal.manager
 
 import com.github.zimablue.attrsystem.AttributeSystem
+import com.github.zimablue.attrsystem.AttributeSystem.langManager
+import com.github.zimablue.attrsystem.utils.console
 import com.github.zimablue.attrsystem.utils.createIfNotExists
 import com.github.zimablue.attrsystem.utils.langInfo
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
@@ -16,7 +18,6 @@ object ASConfig {
     const val numberPattern: String = "(?<value>((?<=\\()(\\+|\\-)?(\\d+(?:(\\.\\d+))?)(?=\\)))|((\\+|\\-)?(\\d+(?:(\\.\\d+))?)))"
 
     lateinit var config: Configuration
-    lateinit var lang: Configuration
     lateinit var options: Configuration
 
     val loreEnable: Boolean
@@ -34,26 +35,26 @@ object ASConfig {
 
 
     val statsTitle: String
-        get() = lang.getString("stats-title")!!
+        get() = langManager.asLangText(console(),"stats-title")[0]
     val statsStatus
-        get() = lang.getString("stats-status")!!
+        get() = langManager.asLangText(console(), "stats-status")[0]
     val statusAttributeFormat
-        get() = lang.getString("stats-attribute-format")!!
+        get() = langManager.asLangText(console(), "stats-attribute-format")[0]
 
     val statusNone
-        get() = lang.getString("stats-status-none")!!
+        get() = langManager.asLangText(console(), "stats-status-none")[0]
 
     val statusValue
-        get() = lang.getString("stats-status-value")!!
+        get() = langManager.asLangText(console(), "stats-status-value")[0]
 
     val statusPlaceholder
-        get() = lang.getString("stats-status-placeholder")!!
+        get() = langManager.asLangText(console(), "stats-status-placeholder")[0]
 
     val statusPlaceholderValue
-        get() = lang.getString("stats-status-placeholder-value")!!
+        get() = langManager.asLangText(console(), "stats-status-placeholder-value")[0]
 
     val statsEnd: String
-        get() = lang.getString("stats-end")!!
+        get() = langManager.asLangText(console(), "stats-end")[0]
 
     // FightSystem configs
 
@@ -78,7 +79,6 @@ object ASConfig {
     @Awake(PluginLifeCycle.LOAD,AwakePriority.LOWEST)
     fun onLoad() {
         AttributeSystem.savePackagedResource("config.yml")
-        AttributeSystem.savePackagedResource("lang.yml")
         AttributeSystem.savePackagedResource("slot.yml")
         AttributeSystem.savePackagedResource("options.yml")
 
@@ -120,7 +120,6 @@ object ASConfig {
     @Awake(PluginLifeCycle.RELOAD,AwakePriority.LOWEST)
     fun onReload() {
         config = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("config.yml").toFile(),Type.YAML)
-        lang = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("lang.yml").toFile(),Type.YAML)
         options = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("options.yml").toFile(),Type.YAML)
         message = Configuration.loadFromFile(AttributeSystem.dataDirectory.resolve("message.yml").toFile(),Type.YAML)
         lineConditionPattern = Pattern.compile(lineConditionFormat)

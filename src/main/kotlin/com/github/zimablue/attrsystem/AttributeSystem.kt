@@ -8,7 +8,10 @@ import com.github.zimablue.attrsystem.internal.core.command.ASCommand
 import com.github.zimablue.attrsystem.internal.feature.compat.placeholder.AttributePlaceHolder
 import com.github.zimablue.attrsystem.internal.manager.*
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
+import com.github.zimablue.devoutserver.lang.LangManager
+import com.github.zimablue.devoutserver.lang.LangManagerImpl
 import com.github.zimablue.devoutserver.plugin.Plugin
+import com.github.zimablue.devoutserver.plugin.lang.PluginLangManager
 import com.github.zimablue.pouplaceholder.PouPlaceholder
 import net.minestom.server.MinecraftServer
 import net.minestom.server.event.Event
@@ -31,6 +34,8 @@ object AttributeSystem : Plugin() {
 
     val potionManager: PotionManager = PotionManagerImpl
     val healthManager: HealthManager = HealthManagerImpl
+
+    val langManager: LangManager = PluginLangManager(this)
 
     //fight system managers
     val mechanicManager: MechanicManager = MechanicManagerImpl
