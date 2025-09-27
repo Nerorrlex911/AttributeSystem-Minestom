@@ -89,21 +89,9 @@ object ASConfig {
             "attributes",
             "Example.yml"
         )
-        createIfNotExists(
-            "scripts",
-            "conditions/slot.js",
-            "conditions/attribute.js",
-        )
 
         createIfNotExists("fight_group", "default.yml", "skapi.yml", "mythic_skill.yml", "damage_event.yml")
         createIfNotExists("damage_type", "magic.yml", "physical.yml", "real.yml")
-        createIfNotExists(
-            "scripts",
-            "mechanics/basic.js",
-            "mechanics/mechanics.js",
-            "mechanics/mythicskill.js",
-            "mechanics/shield.js",
-        )
         createIfNotExists(
             "attributes",
             "其他.yml",
