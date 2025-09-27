@@ -1,7 +1,6 @@
 //@Condition()
 
-Player = find("org.bukkit.entity.Player");
-Coerce = static("Coerce");
+Coerce = Package.taboolib.common5.Coerce;
 
 key = "fighting";
 

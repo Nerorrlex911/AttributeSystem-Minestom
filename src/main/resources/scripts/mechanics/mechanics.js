@@ -1,5 +1,5 @@
-Player = find("org.bukkit.entity.Player");
-Coerce = static("Coerce");
+Player = Packages.net.minestom.server.entity.Player;
+Coerce = Packages.taboolib.common5.Coerce;
 Plus = operation("Plus")
 // 燃烧
 //@Mechanic(flame)
