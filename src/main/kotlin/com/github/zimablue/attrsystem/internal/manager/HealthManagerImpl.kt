@@ -72,10 +72,12 @@ object HealthManagerImpl : HealthManager() {
     }
 
     override fun getMaxHealth(player: Player): Double {
+        if(!enable) return player.getAttributeValue(net.minestom.server.entity.attribute.Attribute.MAX_HEALTH)
         return player.getAttrData()?.getAttrValue<Double>(maxHealthAttr) ?: 0.0
     }
 
     override fun getHealth(player: Player): Double {
+        if(!enable) return player.health.toDouble()
         val health = player.getTag(HEALTH_TAG)
         if(health==null) {
             val newHealth = ASContainer[player.uuid, "as_health"]?.cdouble ?: getMaxHealth(player)
@@ -87,6 +89,9 @@ object HealthManagerImpl : HealthManager() {
     }
 
     override fun setHealth(player: Player, health: Double) {
+        if(!enable) {
+            player.health = health.toFloat()
+        }
         val currentHealth = getHealth(player)
         if (currentHealth == health) return
         // 可以为负值，这将杀死玩家
