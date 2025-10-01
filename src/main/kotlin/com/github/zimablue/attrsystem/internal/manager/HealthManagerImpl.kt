@@ -53,7 +53,8 @@ object HealthManagerImpl : HealthManager() {
         AttributeSystem.asEventNode.addChild(dataEventNode)
         dataEventNode
             .addListener(PlayerSpawnEvent::class.java) { event ->
-                scale(event.player)
+                if(event.isFirstSpawn) initData(event.player)
+                else scale(event.player)
             }
             .addListener(PlayerDisconnectEvent::class.java) { event ->
                 val player = event.player
@@ -78,13 +79,9 @@ object HealthManagerImpl : HealthManager() {
 
     override fun getHealth(player: Player): Double {
         if(!enable) return player.health.toDouble()
+        // 如果health为空，初始化数据，但理论上不会到达此处，因为PlayerSpawnEvent会初始化数据
         val health = player.getTag(HEALTH_TAG)
-        if(health==null) {
-            val newHealth = ASContainer[player.uuid, "as_health"]?.cdouble ?: getMaxHealth(player)
-            player.setTag(HEALTH_TAG, newHealth)
-            scale(player, newHealth)
-            return newHealth
-        }
+            ?: return initData(player)
         return health
     }
 
@@ -103,6 +100,12 @@ object HealthManagerImpl : HealthManager() {
         player.setTag(HEALTH_TAG, health)
         debug("setHealth $currentHealth, health set to $health")
         scale(player,health)
+    }
+    private fun initData(player: Player) : Double{
+        val newHealth = ASContainer[player.uuid, "as_health"]?.cdouble ?: getMaxHealth(player)
+        player.setTag(HEALTH_TAG, newHealth)
+        scale(player, newHealth)
+        return newHealth
     }
     private fun scale(player: Player, health: Double=getHealth(player), maxHealth: Double=getMaxHealth(player)) {
         if(enable) {

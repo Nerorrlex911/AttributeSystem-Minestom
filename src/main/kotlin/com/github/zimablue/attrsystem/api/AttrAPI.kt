@@ -13,6 +13,7 @@ import com.github.zimablue.attrsystem.api.equipment.EquipmentDataCompound
 import com.github.zimablue.attrsystem.api.operation.Operation
 import com.github.zimablue.attrsystem.utils.validEntity
 import net.minestom.server.entity.LivingEntity
+import net.minestom.server.entity.Player
 import net.minestom.server.item.ItemStack
 import java.util.*
 
@@ -455,5 +456,49 @@ object AttrAPI {
     fun UUID.removeCompiledData(source: String): CompiledData? {
         return AttributeSystem.compiledAttrDataManager.removeCompiledData(this, source)
     }
-    
+
+    /**
+     * 设置来自AttributeSystem的血量
+     * 若Health Scale启用，则对Player使用时会设置AS所接管的生命值系统
+     * 若Health Scale未启用，则直接设置原版生命值
+     * 目前为止，对非玩家实体，始终等价于设置原版生命值
+     */
+    @JvmStatic
+    fun LivingEntity.setASHealth(health: Double) {
+        if(this is Player) {
+            AttributeSystem.healthManager.setHealth(this,health)
+        } else {
+            if(this.isActive) this.health = health.toFloat()
+        }
+    }
+
+    /**
+     * 获取来自AttributeSystem的血量
+     * 若Health Scale启用，则对Player使用时会获取AS所接管的生命值
+     * 若Health Scale未启用，则直接获取原版生命值
+     * 目前为止，对非玩家实体，始终等价于获取原版生命值
+     */
+    @JvmStatic
+    fun LivingEntity.getASHealth(): Double {
+        return if(this is Player) {
+            AttributeSystem.healthManager.getHealth(this)
+        } else {
+            this.health.toDouble()
+        }
+    }
+    /**
+     * 获取来自AttributeSystem的最大生命值
+     * 若Health Scale启用，则对Player使用时会获取AS所接管的生命值
+     * 若Health Scale未启用，则直接获取原版生命值
+     * 目前为止，对非玩家实体，始终等价于获取原版生命值
+     */
+    @JvmStatic
+    fun LivingEntity.getASMaxHealth(): Double {
+        return if(this is Player) {
+            AttributeSystem.healthManager.getMaxHealth(this)
+        } else {
+            this.getAttributeValue(net.minestom.server.entity.attribute.Attribute.MAX_HEALTH)
+        }
+    }
+
 }
