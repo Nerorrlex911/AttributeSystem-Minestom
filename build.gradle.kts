@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    id("maven-publish")
+
 }
 
 group = "com.github.zimablue.attrsystem"
@@ -32,5 +34,16 @@ tasks.jar {
             into(destinationDir)
         }
         println("Jar file copied to $destinationDir")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+            artifact(tasks.jar)
+        }
     }
 }
