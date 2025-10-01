@@ -2,16 +2,16 @@ base-attribute-player:
   # strings / nbt
   type: strings
   attributes:
-    - "生命恢复: 0.1"
-    - "攻击速度: 1.5"
     - "命中几率: 100(%)"
-    - "攻击距离: 2.7"
     - "暴击伤害: 150(%)"
+    - "攻击力: 10"
+    - "生命值: 40"
 base-attribute-entity:
   # strings / nbt
   type: strings
   attributes:
     - "命中几率: 100(%)"
+    - "攻击力: 1"
 #生命值缩放
 health-scale:
   enable: true

@@ -1,3 +1,2 @@
 damage: "mechanics\\basic.js::damage"
 crit: "mechanics\\basic.js::crit"
-vampire: "mechanics\\basic.js::vampire"

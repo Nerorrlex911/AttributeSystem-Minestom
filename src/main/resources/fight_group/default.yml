@@ -22,46 +22,36 @@ attack-damage:
         # type 攻击类型 PVP PVE EVE (全局)
         # projectile 是否是远程攻击 true / false (全局)
         enable: "EvalEx::RANDOM()<{a.as_att:PhysicalHitChance}-{d.as_att:PhysicalDodgeChance}"
-        value: "File::mechanics/basic.js::defaultGroup"
-#          set type = when of {type} {
-#            case == 'PVP' -> '{a.as_att:PVPDamage} - {d.as_att:PVPDefense}'
-#            case == 'PVE' -> '{a.as_att:PVEDamage} - {d.as_att:PVEDefense}'
-#            else -> 0
-#          }
-#          set projectile to if check {projectile} == true then '{a.as_att:ProjectileDamage} - {d.as_att:ProjectileDefense}' else '0'
-#          set damage to '{a.as_att:PhysicalDamage} + {origin}'
-#          set defense to if check random 0 to 1 < {a.as_att:PhysicalDefenseIgnore} then 0 else '{d.as_att:PhysicalDefense} - {a.as_att:PhysicalPenetration}'
-#          set force to if has force then {force} else 1
-#          calculate '{&damage} + {$type} + {&projectile} - {&defense} ) * {&force}'
+        value: "File::mechanics\\basic.js::defaultGroup"
       #机制从上到下按顺序执行
       - mechanic: crit
         #下面的机制数据可以调用上面已执行机制的执行结果 格式为{id}
         enable: "EvalEx::RANDOM()<{a.as_att:PhysicalCriticalChance}"
         multiplier: "EvalEx::{a.as_att:PhysicalCriticalMultiple}-{d.as_att:PhysicalCriticalDefense}"
 
-      - mechanic: vampire
-        enable: "EvalEx::RANDOM()<{a.as_att:VampireChance}"
-        value: "EvalEx::{a.as_att:VampireMultiple}-{d.as_att:VampireDefense}"
-      - mechanic: flame
-        enable: "EvalEx::RANDOM()<{a.as_att:燃烧几率}"
-        damage: "EvalEx::MAX(1, {a.as_att:燃烧伤害})"
-        duration: "EvalEx::MAX(20, {a.as_att:燃烧伤害}*3)"
-      - mechanic: frozen
-        enable: "EvalEx::RANDOM()<{a.as_att:冰冻几率}"
-        value: "EvalEx::MAX(1, {a.as_att:冰冻强度})"
-        duration: "EvalEx::MAX(20, {a.as_att:冰冻强度}*3)"
-      - mechanic: thunder
-        enable: "EvalEx::RANDOM()<{a.as_att:雷击几率}"
-        damage: "EvalEx::MAX(1, {a.as_att:雷击伤害})"
-      - mechanic: rebound
-        enable: "EvalEx::RANDOM()<{d.as_att:反弹几率}"
-        multiplier: "EvalEx::MAX(0.1, {d.as_att:反弹倍率})"
-      - mechanic: shield
-        enable: "EvalEx::RANDOM()<1-{a.as_att:BlockingIgnore}"
-        reduce: "{d.as_att:Blocking}"
-        #tick
-        # {reduced}是实际减伤
-        cooldown: "EvalEx::({reduced}/4)*20"
+      # - mechanic: vampire
+      #   enable: "EvalEx::RANDOM()<{a.as_att:VampireChance}"
+      #   value: "EvalEx::{a.as_att:VampireMultiple}-{d.as_att:VampireDefense}"
+      # - mechanic: flame
+      #   enable: "EvalEx::RANDOM()<{a.as_att:燃烧几率}"
+      #   damage: "EvalEx::MAX(1, {a.as_att:燃烧伤害})"
+      #   duration: "EvalEx::MAX(20, {a.as_att:燃烧伤害}*3)"
+      # - mechanic: frozen
+      #   enable: "EvalEx::RANDOM()<{a.as_att:冰冻几率}"
+      #   value: "EvalEx::MAX(1, {a.as_att:冰冻强度})"
+      #   duration: "EvalEx::MAX(20, {a.as_att:冰冻强度}*3)"
+      # - mechanic: thunder
+      #   enable: "EvalEx::RANDOM()<{a.as_att:雷击几率}"
+      #   damage: "EvalEx::MAX(1, {a.as_att:雷击伤害})"
+      # - mechanic: rebound
+      #   enable: "EvalEx::RANDOM()<{d.as_att:反弹几率}"
+      #   multiplier: "EvalEx::MAX(0.1, {d.as_att:反弹倍率})"
+      # - mechanic: shield
+      #   enable: "EvalEx::RANDOM()<1-{a.as_att:BlockingIgnore}"
+      #   reduce: "{d.as_att:Blocking}"
+      #   #tick
+      #   # {reduced}是实际减伤
+      #   cooldown: "EvalEx::({reduced}/4)*20"
   Real:
     enable: 'EvalEx::ROUND({a.as_att:RealDamage}, 2)!=0.0'
     mechanics:
