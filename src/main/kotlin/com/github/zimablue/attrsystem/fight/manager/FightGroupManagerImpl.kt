@@ -9,6 +9,7 @@ import com.github.zimablue.attrsystem.fight.api.manager.FightGroupManager
 import com.github.zimablue.attrsystem.fight.internal.core.fight.FightGroup
 import com.github.zimablue.attrsystem.utils.getAllFiles
 import com.github.zimablue.devoutserver.plugin.lifecycle.Awake
+import com.github.zimablue.devoutserver.plugin.lifecycle.AwakePriority
 import com.github.zimablue.devoutserver.plugin.lifecycle.PluginLifeCycle
 import net.minestom.server.entity.Player
 import net.minestom.server.entity.damage.Damage
@@ -19,13 +20,15 @@ import taboolib.module.configuration.Configuration
 
 object FightGroupManagerImpl : FightGroupManager() {
 
-    @Awake(PluginLifeCycle.ENABLE)
+    val SKILL_DAMAGE = Tag.Boolean("skill-damage")
+
+    @Awake(PluginLifeCycle.ENABLE,AwakePriority.HIGHEST)
     fun onEnable() {
         onReload()
         addIgnore()
     }
 
-    @Awake(PluginLifeCycle.RELOAD)
+    @Awake(PluginLifeCycle.RELOAD,AwakePriority.HIGHEST)
     fun onReload() {
         clear()
         getAllFiles(AttributeSystem.dataDirectory.resolve("fight_group").toFile()).forEach {
@@ -39,13 +42,13 @@ object FightGroupManagerImpl : FightGroupManager() {
 
     private fun addIgnore() {
         FightAPI.addIgnoreAttack { _, defender ->
-            defender.getTag(Tag.Boolean("doing-skill-damage")) ?: false
+            defender.getTag(SKILL_DAMAGE) ?: false
         }
 
     }
 
     private fun FightData.doingDamage(result: Double): Double {
-        val tag = Tag.Boolean("skill-damage")
+        val tag = SKILL_DAMAGE
         defender?.setTag(tag, true)
         defender?.damage(Damage.fromEntity(attacker,result.cfloat))
         defender?.removeTag(tag)

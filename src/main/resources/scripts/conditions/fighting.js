@@ -1,6 +1,6 @@
 //@Condition()
 
-Coerce = Package.taboolib.common5.Coerce;
+Coerce = Packages.taboolib.common5.Coerce;
 
 key = "fighting";
 

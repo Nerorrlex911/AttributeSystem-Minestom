@@ -42,7 +42,7 @@ object AttributeManagerImpl: AttributeManager() {
     override fun addSubPlugin(subPlugin: Plugin) {
         val folder = subPlugin.dataDirectory.toFile()
         addDataFolders(folder)
-        subPlugin.lifeCycleManager.registerTask(PluginLifeCycle.RELOAD,AwakePriority.NORMAL) {
+        subPlugin.lifeCycleManager.registerTask("AttributeSystem-SubPlugin",PluginLifeCycle.RELOAD,AwakePriority.NORMAL) {
             reloadFolder(folder)
         }
     }

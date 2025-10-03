@@ -1,5 +1,5 @@
 
-Coerce = Package.taboolib.common5.Coerce;
+Coerce = Packages.taboolib.common5.Coerce;
 
 key = "attribute";
 names = ["需要(?<name>.*)属性: (?<value>\\d+)"];

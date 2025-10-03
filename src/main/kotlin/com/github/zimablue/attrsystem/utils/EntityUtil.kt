@@ -2,8 +2,10 @@ package com.github.zimablue.attrsystem.utils
 
 import com.github.zimablue.attrsystem.AttributeSystem.attributeSystemAPI
 import net.minestom.server.MinecraftServer
+import net.minestom.server.component.DataComponents
 import net.minestom.server.entity.Entity
 import net.minestom.server.entity.LivingEntity
+import net.minestom.server.entity.Player
 import net.minestom.server.utils.entity.EntityFinder
 import java.util.*
 
@@ -34,4 +36,9 @@ fun UUID.livingEntity() : LivingEntity? {
         }
     }
     return null
+}
+
+fun Entity.checkName() : String {
+    return if(this is Player) this.username
+    else this.entityType.name()
 }

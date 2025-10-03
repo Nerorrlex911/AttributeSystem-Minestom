@@ -7,6 +7,7 @@ import com.github.zimablue.attrsystem.api.AttrAPI.hasData
 import com.github.zimablue.attrsystem.api.attribute.compound.AttributeDataCompound
 import com.github.zimablue.attrsystem.internal.feature.compat.placeholder.AttributePlaceHolder
 import com.github.zimablue.attrsystem.internal.manager.ASConfig
+import com.github.zimablue.attrsystem.utils.checkName
 import com.github.zimablue.attrsystem.utils.langWarn
 import net.minestom.server.component.DataComponents
 import net.minestom.server.entity.LivingEntity
@@ -42,7 +43,7 @@ class DataCache(data: FightData? = null) {
         if (!entity.hasData())
             AttributeSystem.attributeSystemAPI.update(entity)
         attackerData = entity.getAttrData()!!.clone()
-        attackerName = entity[DataComponents.CUSTOM_NAME]?.examinableName()?:"null"
+        attackerName = entity.checkName()
         data ?: return this
         data!!["attacker"] = entity
         data!!["attacker-name"] = attackerName
@@ -54,7 +55,7 @@ class DataCache(data: FightData? = null) {
         if (!entity.hasData())
             AttributeSystem.attributeSystemAPI.update(entity)
         defenderData = entity.getAttrData()!!.clone()
-        defenderName = entity[DataComponents.CUSTOM_NAME]?.examinableName()?:"null"
+        defenderName = entity.checkName()
         data ?: return this
         data!!["defender"] = entity
         data!!["defender-name"] = defenderName

@@ -14,11 +14,11 @@ import taboolib.module.configuration.util.asMap
 object BaseAttributeEntity {
 
     val type
-        get() = ASConfig.options.getString("base-attribute-player.type")?.lowercase() ?: "strings"
+        get() = ASConfig.options.getString("base-attribute-entity.type")?.lowercase() ?: "strings"
     val attrData
-        get() = ASConfig.options["base-attribute-player.attributes"]
+        get() = ASConfig.options["base-attribute-entity.attributes"]
     val conditions
-        get() = ASConfig.options["base-attribute-player.conditions"]
+        get() = ASConfig.options["base-attribute-entity.conditions"]
 
     private const val KEY = "BASIC-ATTRIBUTE"
 

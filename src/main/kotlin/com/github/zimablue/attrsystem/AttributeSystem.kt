@@ -8,6 +8,7 @@ import com.github.zimablue.attrsystem.internal.core.command.ASCommand
 import com.github.zimablue.attrsystem.internal.feature.compat.placeholder.AttributePlaceHolder
 import com.github.zimablue.attrsystem.internal.manager.*
 import com.github.zimablue.attrsystem.internal.manager.ASConfig.debug
+import com.github.zimablue.attrsystem.utils.console
 import com.github.zimablue.devoutserver.lang.LangManager
 import com.github.zimablue.devoutserver.lang.LangManagerImpl
 import com.github.zimablue.devoutserver.plugin.Plugin
@@ -16,6 +17,7 @@ import com.github.zimablue.pouplaceholder.PouPlaceholder
 import net.minestom.server.MinecraftServer
 import net.minestom.server.event.Event
 import net.minestom.server.event.EventNode
+import kotlin.math.log
 
 object AttributeSystem : Plugin() {
 
@@ -35,7 +37,7 @@ object AttributeSystem : Plugin() {
     val potionManager: PotionManager = PotionManagerImpl
     val healthManager: HealthManager = HealthManagerImpl
 
-    val langManager: LangManager = PluginLangManager(this)
+    val langManager = PluginLangManager(this)
 
     //fight system managers
     val mechanicManager: MechanicManager = MechanicManagerImpl
@@ -48,6 +50,12 @@ object AttributeSystem : Plugin() {
     val personalManager: PersonalManager = PersonalManagerImpl
     
     val fightStatusManager: FightStatusManager = FightStatusManagerImpl
+
+    override fun onLoad() {
+        super.onLoad()
+        // 使懒加载的langManager初始化
+        langManager.init()
+    }
 
     override fun onEnable() {
         super.onEnable()
